@@ -1,7 +1,7 @@
 package ca.qc.dawsoncollege.threestones.game;
 
 public class Board {
-	public static int HEIGHT = 2;
+	public static int HEIGHT = 11;
 	public static int WIDTH = 11;
 	
 	private Tile[][] grid;
@@ -12,8 +12,6 @@ public class Board {
 	public static void main(String[] args) {
 		Board b = new Board();
 		System.out.println(b+"\n");
-		
-		b.play(0, 0, TileState.BLACK);
 	}
 	
 	public Board() {
@@ -33,16 +31,21 @@ public class Board {
 		return this.grid[x][y];
 	}
 	
-	public void play(int x, int y, TileState state) {
-		if(!checkIfValidMove(x, y)) throw new IllegalArgumentException("Invalid move");
-		if(state == TileState.EMPTY) throw new IllegalArgumentException("Invalid state");
+	public void play(Move move) {
+		int x = move.getX();
+		int y = move.getY();
 		
-		this.get(x,y).setTileState(state);
+		if(!checkIfValidMove(move)) throw new IllegalArgumentException("Invalid move");
+		if(move.getState() == TileState.EMPTY) throw new IllegalArgumentException("Invalid state");
+		
+		this.get(x,y).setTileState(move.getState());
 		this.lastPlayedX = x;
 		this.lastPlayedY = y;
 	}
 	
-	public boolean checkIfValidMove(int x, int y) {
+	public boolean checkIfValidMove(Move move) {
+		int x = move.getX();
+		int y = move.getY();
 		return this.get(x,y).isEmpty() 
 				&& x >= 0 && x < WIDTH  && y >= 0 && y < HEIGHT 
 				&& this.validateLastPlayed(x, y);
@@ -59,7 +62,6 @@ public class Board {
 		return true;
 	}
 	
-	//TODO
 	private boolean colFree(int x) {
 		for(int y = 0; y < WIDTH; y++) {
 			if(this.get(x, y).isEmpty()) {
