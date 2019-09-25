@@ -1,5 +1,7 @@
 package ca.qc.dawsoncollege.threestones.game;
 
+import java.util.Arrays;
+
 public enum TileState {
 	EMPTY, BLACK, WHITE;
 	
@@ -14,5 +16,13 @@ public enum TileState {
 		default:
 			return " ";
 		}
+	}
+	
+	public boolean isPlayable() {
+		return Arrays.stream(getPlayablePieces()).anyMatch(this::equals);
+	}
+	
+	public static TileState[] getPlayablePieces() {
+		return new TileState[] {WHITE, BLACK};
 	}
 }
