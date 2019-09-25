@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="threestones" />
+        <module name="threestones_project_dependencies" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="desktop_project_dependencies" target="12" />
+      <module name="threestones" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
