@@ -90,4 +90,20 @@ public class Board {
 		}
 		return sb.toString();
 	}
+
+	public int computerMove() {
+		return 0;
+	}
+
+	public void addMove(byte decision, byte playerTwo) {
+
+	}
+
+	public boolean checkIfWin() {
+		return false;
+	}
+
+	public boolean isComplete() {
+		return false;
+	}
 }
