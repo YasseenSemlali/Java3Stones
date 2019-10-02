@@ -3,37 +3,31 @@ package ca.qc.dawsoncollege.threestones.game;
 import ca.qc.dawsoncollege.threestones.game.Player.Player;
 
 public class Game {
-	
-	public void run(Player p1, Player p2) {
-		this.sendBoardInfo();
+	public void run(Player... players) {
 		Board board = new Board();
+		System.out.println(board);
 		
-		while(true) {
-			Move m1 = p1.getMove();
-			while(!board.checkIfValidMove(m1)) {
-				sendValidMove(false);
-				m1 = p1.getMove();
-			}
-			sendValidMove(true);
-			board.play(m1);
+		boolean piecesRemaining = true;
+		while(piecesRemaining) {
+			piecesRemaining = false;
 			
-
-			Move m2 = p2.getMove();
-			while(!board.checkIfValidMove(m2)) {
-				sendValidMove(false);
-				m2 = p2.getMove();
+			for(Player player: players) {
+				if(player.hasRemainingPieces()) {
+					Move m1 = player.getMove();
+					while(!board.checkIfValidMove(m1)) {
+						m1 = player.getMove();
+					}
+					board.play(m1);
+					player.usePiece();
+					
+					if(player.hasRemainingPieces()) {
+						piecesRemaining = true;
+					}
+					System.out.println(board);
+				}				
 			}
-			sendValidMove(true);
-			board.play(m2);
 			
+			System.out.println(board.calculateScore());
 		}
-	}
-	
-	private void sendBoardInfo() {
-		
-	}
-	
-	private void sendValidMove(boolean valid) {
-		
 	}
 }
