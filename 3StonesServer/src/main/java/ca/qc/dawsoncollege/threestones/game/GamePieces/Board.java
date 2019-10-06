@@ -1,5 +1,6 @@
-package ca.qc.dawsoncollege.threestones.game;
+package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
+import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
 import ca.qc.dawsoncollege.threestones.game.Player.Player;
 import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 
@@ -40,11 +41,12 @@ public class Board {
     public void play(Move move) {
         int x = move.getX();
         int y = move.getY();
-
-        if (!checkIfValidMove(move))
-            throw new IllegalArgumentException("Invalid move");
-        if (move.getState() == TileState.EMPTY)
-            throw new IllegalArgumentException("Invalid state");
+        System.out.println(move);
+//        if (!checkIfValidMove(move))
+//            throw new IllegalArgumentException("Invalid move");
+//
+//        if (move.getState() == TileState.EMPTY)
+//            throw new IllegalArgumentException("Invalid state");
 
         this.get(x, y).setTileState(move.getState());
         this.lastPlayedX = x;
@@ -152,7 +154,18 @@ public class Board {
         return sb.toString();
     }
 
-    public void addMove(byte x, byte y, byte playerOne) {
+    public void addMove(byte x, byte y, byte player) {
+        Move move = new Move(x, y);
+        if (player == PacketInfo.PLAYER_ONE) {
+            System.out.println("client: white");
+            move.setState(TileState.WHITE);
+        } else if (player == PacketInfo.PLAYER_TWO) {
+            System.out.println("server: black");
+            move.setState(TileState.BLACK);
+        }
+        System.out.println("move by");
+        System.out.println(move.toString());
+        play(move);
     }
 
     public boolean checkIfWin() {
@@ -161,7 +174,11 @@ public class Board {
 
 
     public Move computerMove() {
-        return p2.getMove();
+        Move move;
+        do {
+            move = p2.getMove();
+        } while (!checkIfValidMove(move));
+        return move;
     }
 
     public boolean checkIfTie() {

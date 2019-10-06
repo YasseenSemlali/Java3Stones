@@ -1,24 +1,30 @@
 package ca.qc.dawsoncollege.threestones;
 
-import ca.qc.dawsoncollege.threestones.game.Game;
 import ca.qc.dawsoncollege.threestones.game.Network.GameSession;
-import ca.qc.dawsoncollege.threestones.game.TileState;
-import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
-import ca.qc.dawsoncollege.threestones.game.Player.Player;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 
-public class App 
-{
-    public static void main( String[] args ) throws IOException {
+public class App {
+    private final static Logger LOG = LoggerFactory.getLogger(GameSession.class);
 
-        InetAddress ip = InetAddress.getLocalHost();
-
-        GameSession session = new GameSession(new Socket(ip, 5500));
+    public static void main(String[] args) throws IOException {
+        try {
+            LOG.info("Looking for players!");
+            ServerSocket servSock = new ServerSocket(5500);
+            while (true) {
+                try (Socket player1 = servSock.accept()) {
+                    LOG.info("Player found");
+                    GameSession gs = new GameSession(player1);
+                }
+            }
+        } catch (IOException e) {
+            LOG.error(e.getMessage());
+        }
 //        Game game = new Game();
 //        game.run(p1, p2);
     }

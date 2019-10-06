@@ -4,7 +4,6 @@ package ca.qc.dawsoncollege.threestones.game.Network;
  * Class containing byte constants to use for certain situations
  *
  * @author Saad
- * @author Jean
  * @author Yasseen
  */
 public class PacketInfo {
@@ -16,11 +15,10 @@ public class PacketInfo {
     public static final byte WIN = 4;
     public static final byte TIE = 5;
 
-    //specifies which player activated the specific game mode action
+    //specifies which player just moved
     public static final byte PLAYER_ONE = 6;
     public static final byte PLAYER_TWO = 7;
 
-    //used as place holder if no given line was affected by move action
+    //used as place holder
     public static final byte SPACE = 99;
-
 }

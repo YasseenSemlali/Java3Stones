@@ -1,11 +1,12 @@
 package ca.qc.dawsoncollege.threestones.game.Network;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class handles all methods relating to sending and receiving from a connection
@@ -26,8 +27,8 @@ public class ThreeStonesConnector {
      * @param server takes a string representing the ip address of the server
      * @param port   takes an int that represents the port number
      * @author Saad
-     * @author Seb
-     * @throws java.io.IOException
+     * @author Yasseen
+     * @throws IOException
      */
     public ThreeStonesConnector(String server, int port) throws IOException {
         try {
@@ -62,12 +63,13 @@ public class ThreeStonesConnector {
      *
      * @param first   byte that represents the category of the send (Move, Quit, Play, Win, Tie)
      * @param secound byte that represents the player that is doing the command
-     * @param third   byte that represents the line to place piece or space by default
+     * @param third   byte that represents the x to place piece or space by default
+     * @param fourth byte that represents the y to place piece or space by default
      * @author Saad
-     * @throws java.io.IOException
+     * @throws IOException
      */
-    public void sendData(byte first, byte secound, byte third) throws IOException {
-        byte[] messages = {first, secound, third};
+    public void sendData(byte first, byte secound, byte third, byte fourth) throws IOException {
+        byte[] messages = {first, secound, third, fourth};
         out.write(messages);
     }
 
@@ -76,12 +78,12 @@ public class ThreeStonesConnector {
      *
      * @return byte[] of the data received
      * @author Saad
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public byte[] receiveData() throws IOException {
-        byte[] receivedData = new byte[3];
+        byte[] receivedData = new byte[4];
         int receivedBytes = 0;
-        while (receivedBytes < 3) {
+        while (receivedBytes < 4) {
             receivedBytes = in.read(receivedData);
         }
         return receivedData;
@@ -91,7 +93,7 @@ public class ThreeStonesConnector {
      * Close the connection
      *
      * @author Saad
-     * @throws java.io.IOException
+     * @throws IOException
      */
     public void closeSocket() throws IOException {
         servSocket.close();

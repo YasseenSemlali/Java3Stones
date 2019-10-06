@@ -1,8 +1,8 @@
 package ca.qc.dawsoncollege.threestones.game.Network;
 
 
-import ca.qc.dawsoncollege.threestones.game.Board;
-import ca.qc.dawsoncollege.threestones.game.Move;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,11 +63,13 @@ public class GameSession {
      * @author Yasseen
      */
     private void serverMove(byte x, byte y) throws IOException {
+        System.out.println("here");
         byte first;
         byte second;
         byte third;
         byte fourth;
         board.addMove(x, y, PacketInfo.PLAYER_ONE);
+        System.out.println(board.toString());
         if (board.checkIfWin()) {
             LOG.info("Player is making a victory move.");
             first = PacketInfo.WIN;
