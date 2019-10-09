@@ -62,12 +62,13 @@ public class ThreeStonesConnector {
      *
      * @param first   byte that represents the category of the send (Move, Quit, Play, Win, Tie)
      * @param secound byte that represents the player that is doing the command
-     * @param third   byte that represents the line to place piece or space by default
+     * @param third   byte that represents the x to place piece or space by default
+     * @param fourth byte that represents the y to place piece or space by default
      * @author Saad
      * @throws java.io.IOException
      */
-    public void sendData(byte first, byte secound, byte third) throws IOException {
-        byte[] messages = {first, secound, third};
+    public void sendData(byte first, byte secound, byte third, byte fourth) throws IOException {
+        byte[] messages = {first, secound, third, fourth};
         out.write(messages);
     }
 
@@ -79,9 +80,9 @@ public class ThreeStonesConnector {
      * @throws java.io.IOException
      */
     public byte[] receiveData() throws IOException {
-        byte[] receivedData = new byte[3];
+        byte[] receivedData = new byte[4];
         int receivedBytes = 0;
-        while (receivedBytes < 3) {
+        while (receivedBytes < 4) {
             receivedBytes = in.read(receivedData);
         }
         return receivedData;

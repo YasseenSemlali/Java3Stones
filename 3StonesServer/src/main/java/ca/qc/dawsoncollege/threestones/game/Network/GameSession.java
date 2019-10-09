@@ -1,12 +1,13 @@
 package ca.qc.dawsoncollege.threestones.game.Network;
 
 
-import java.io.IOException;
-import java.net.Socket;
-
-import ca.qc.dawsoncollege.threestones.game.Board;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.Socket;
 
 /**
  * class that handles the game logic
@@ -16,8 +17,8 @@ import org.slf4j.LoggerFactory;
 public class GameSession {
     private final static Logger LOG = LoggerFactory.getLogger(GameSession.class);
     private ThreeStonesConnector connection;
-    private Board game;
-    private boolean playGame;
+    private Board board;
+    private boolean piecesRemaining;
 
     /**
      * This will run one game within the code.
@@ -29,31 +30,25 @@ public class GameSession {
     public GameSession(Socket player1) {
         this.connection = new ThreeStonesConnector(player1);
         LOG.info("Game session created");
-        game = new Board();
-        playGame = true;
+        board = new Board();
+        piecesRemaining = true;
         try {
             do {
                 byte[] data = connection.receiveData();
                 if (data[0] == PacketInfo.QUIT) {
                     LOG.info("Quitting game...");
-                    playGame = false;
+                    piecesRemaining = false;
+                } else if (data[0] == PacketInfo.PLAY) {
+                    LOG.info("Starting game...");
+                    board = new Board();
+                } else if (data[0] == PacketInfo.WIN) {
+                    LOG.info("Restarting game...");
+                    board = new Board();
+                } else {
+                    LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
+                    serverMove(data[2], data[3]);
                 }
-                else if (data[0] == PacketInfo.PLAY)
-                {
-                    game = new Board();
-                    if (data[1] == PacketInfo.PLAYER_TWO)
-                    {
-                        firstMove();
-                    }
-                }else if(data[0] == PacketInfo.WIN){
-                    game = new Board();
-                }
-                else {
-                    byte number = data[2];
-                    LOG.info("Adding move at line " + number + " for player.");
-                    serverMove(number);
-                }
-            } while (playGame);
+            } while (piecesRemaining);
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }
@@ -62,61 +57,57 @@ public class GameSession {
     /**
      * This method will send the client the results of his movement.
      *
-     * @param line representing the line that player has chosen
+     * @param x representing the x that player has chosen
+     * @param y representing the y that player has chosen
      * @author Saad
      * @author Yasseen
      */
-    private void serverMove(byte line) throws IOException {
+    private void serverMove(byte x, byte y) throws IOException {
+        System.out.println("here");
         byte first;
         byte second;
         byte third;
-        game.addMove(line, PacketInfo.PLAYER_ONE);
-        if (game.checkIfWin()) {
+        byte fourth;
+        board.addMove(x, y, PacketInfo.PLAYER_ONE);
+        System.out.println(board.toString());
+        if (board.checkIfWin()) {
             LOG.info("Player is making a victory move.");
             first = PacketInfo.WIN;
             second = PacketInfo.PLAYER_ONE;
             third = PacketInfo.SPACE;
-
-        } else if (game.isComplete()) {
+            fourth = PacketInfo.SPACE;
+        } else if (board.checkIfTie()) {
             LOG.info("Player has made the game a tie.");
             first = PacketInfo.TIE;
             second = PacketInfo.PLAYER_ONE;
             third = PacketInfo.SPACE;
+            fourth = PacketInfo.SPACE;
         } else {
-            int decision = game.computerMove();
-            game.addMove((byte) decision, PacketInfo.PLAYER_TWO);
+            Move decision = board.computerMove();
+            board.addMove((byte) decision.getX(), (byte) decision.getY(), PacketInfo.PLAYER_TWO);
             LOG.info("Adding move at line " + decision + " for computer.");
-            if (game.checkIfWin()) {
+            if (board.checkIfWin()) {
                 LOG.info("Computer is making a victory move.");
                 first = PacketInfo.WIN;
                 second = PacketInfo.PLAYER_TWO;
-                third = (byte) decision;
-            } else if (game.isComplete()) {
+                third = (byte) decision.getX();
+                fourth = (byte) decision.getY();
+            } else if (board.checkIfTie()) {
                 LOG.info("Computer has made the game a tie.");
                 first = PacketInfo.TIE;
                 second = PacketInfo.PLAYER_TWO;
-                third = (byte) decision;
+                third = (byte) decision.getX();
+                fourth = (byte) decision.getY();
             } else {
                 LOG.info("Computer has not made " + "a victory or tie move.");
                 first = PacketInfo.MOVE;
                 second = PacketInfo.PLAYER_TWO;
-                third = (byte) decision;
+                third = (byte) decision.getX();
+                fourth = (byte) decision.getY();
             }
             LOG.info("Computer is returning his move to client at line: " + decision);
         }
-        connection.sendData(first, second, third);
-    }
-
-    /**
-     * This will run when the computer goes first
-     *
-     * @author Saad
-     */
-    private void firstMove() throws IOException{
-        int decision = game.computerMove();
-        game.addMove((byte) decision, PacketInfo.PLAYER_TWO);
-        System.out.println("Computer is first : " + decision + " for computer.");
-        connection.sendData(PacketInfo.MOVE,PacketInfo.PLAYER_TWO, (byte) decision);
+        connection.sendData(first, second, third, fourth);
     }
 }
 
