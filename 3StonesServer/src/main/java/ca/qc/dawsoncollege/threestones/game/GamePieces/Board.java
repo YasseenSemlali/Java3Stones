@@ -41,12 +41,11 @@ public class Board {
     public void play(Move move) {
         int x = move.getX();
         int y = move.getY();
-        System.out.println(move);
-//        if (!checkIfValidMove(move))
-//            throw new IllegalArgumentException("Invalid move");
-//
-//        if (move.getState() == TileState.EMPTY)
-//            throw new IllegalArgumentException("Invalid state");
+        if (!checkIfValidMove(move))
+            throw new IllegalArgumentException("Invalid move");
+
+        if (move.getState() == TileState.EMPTY)
+            throw new IllegalArgumentException("Invalid state");
 
         this.get(x, y).setTileState(move.getState());
         this.lastPlayedX = x;

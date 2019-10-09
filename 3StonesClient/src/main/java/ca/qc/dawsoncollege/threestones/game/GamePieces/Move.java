@@ -16,6 +16,15 @@ public class Move {
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return "Move{" +
+                "x=" + x +
+                ", y=" + y +
+                ", state=" + state +
+                '}';
+    }
+
     public int getX() {
         return x;
     }

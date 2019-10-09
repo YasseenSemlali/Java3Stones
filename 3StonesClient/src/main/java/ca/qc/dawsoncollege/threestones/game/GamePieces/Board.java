@@ -41,10 +41,10 @@ public class Board {
     public void play(Move move) {
         int x = move.getX();
         int y = move.getY();
-//        if (!checkIfValidMove(move))
-//            throw new IllegalArgumentException("Invalid move");
-//        if (move.getState() == TileState.EMPTY)
-//            throw new IllegalArgumentException("Invalid state");
+        if (!checkIfValidMove(move))
+            throw new IllegalArgumentException("Invalid move");
+        if (move.getState() == TileState.EMPTY)
+            throw new IllegalArgumentException("Invalid state");
 
         this.get(x, y).setTileState(move.getState());
         this.lastPlayedX = x;
@@ -172,7 +172,11 @@ public class Board {
 
 
     public Move computerMove() {
-        return p1.getMove();
+        Move move;
+        do {
+            move = p1.getMove();
+        } while (!checkIfValidMove(move));
+        return move;
     }
 
     public boolean checkIfTie() {

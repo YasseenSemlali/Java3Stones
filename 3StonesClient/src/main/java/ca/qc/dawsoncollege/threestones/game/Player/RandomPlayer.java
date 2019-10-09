@@ -21,5 +21,4 @@ public class RandomPlayer extends Player {
         return new Move((int) (Math.random() * 11), (int) (Math.random() * 11), this.tileColor);
     }
 
-
 }

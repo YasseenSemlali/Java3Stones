@@ -32,7 +32,7 @@ public class GameController {
         boolean play = true;
         board = new Board();
         do {
-            Move m1 = p1.getMove();
+            Move m1 = board.computerMove();
             System.out.println(m1.getState());
             System.out.println(m1.getX());
             System.out.println(m1.getY());
