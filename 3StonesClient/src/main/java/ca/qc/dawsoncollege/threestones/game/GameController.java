@@ -33,9 +33,11 @@ public class GameController {
         board = new Board();
         do {
             Move m1 = board.computerMove();
+            board.play(m1);
             System.out.println(m1.getState());
             System.out.println(m1.getX());
             System.out.println(m1.getY());
+            
             connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
             processReceivedData();
             if (board.checkIfWin()) {

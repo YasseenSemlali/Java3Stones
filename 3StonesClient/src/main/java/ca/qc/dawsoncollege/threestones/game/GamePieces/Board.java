@@ -49,6 +49,7 @@ public class Board {
         this.get(x, y).setTileState(move.getState());
         this.lastPlayedX = x;
         this.lastPlayedY = y;
+        
     }
 
     public boolean checkIfValidMove(Move move) {
@@ -116,7 +117,7 @@ public class Board {
         if (this.lastPlayedX == -1 && this.lastPlayedY == -1)
             return true;
 
-        if (colFree(x) && rowFree(y)) {
+        if (colFree(x) || rowFree(y)) {
             return x == this.lastPlayedX || y == this.lastPlayedY;
         }
 

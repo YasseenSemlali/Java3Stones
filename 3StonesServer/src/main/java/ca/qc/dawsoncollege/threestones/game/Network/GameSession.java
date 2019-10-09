@@ -33,6 +33,8 @@ public class GameSession {
         board = new Board();
         piecesRemaining = true;
         try {
+        	int pieces = 15;
+        	
             do {
                 byte[] data = connection.receiveData();
                 if (data[0] == PacketInfo.QUIT) {
@@ -47,8 +49,12 @@ public class GameSession {
                 } else {
                     LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
                     serverMove(data[2], data[3]);
+                    pieces--;
                 }
-            } while (piecesRemaining);
+            } while (pieces > 0);
+            System.out.println(board.calculateScore());
+            
+            
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }

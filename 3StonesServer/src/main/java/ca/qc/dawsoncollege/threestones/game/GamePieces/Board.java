@@ -48,6 +48,7 @@ public class Board {
             throw new IllegalArgumentException("Invalid state");
 
         this.get(x, y).setTileState(move.getState());
+        System.out.println("Last played x changed to " + x);
         this.lastPlayedX = x;
         this.lastPlayedY = y;
     }
@@ -55,6 +56,8 @@ public class Board {
     public boolean checkIfValidMove(Move move) {
         int x = move.getX();
         int y = move.getY();
+        System.out.println("first validation " + (this.get(x, y).isEmpty() && x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT));
+        System.out.println(" validateLastPlayed " + this.validateLastPlayed(x, y));
         return this.get(x, y).isEmpty() && x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && this.validateLastPlayed(x, y);
     }
 
@@ -117,7 +120,10 @@ public class Board {
         if (this.lastPlayedX == -1 && this.lastPlayedY == -1)
             return true;
 
-        if (colFree(x) && rowFree(y)) {
+        System.out.println("lastPlayedX " + this.lastPlayedX);
+        System.out.println("lastPlayedY " + this.lastPlayedY);
+        if (colFree(x) || rowFree(y)) {
+        	System.out.println("test row free");
             return x == this.lastPlayedX || y == this.lastPlayedY;
         }
 
@@ -173,8 +179,9 @@ public class Board {
 
 
     public Move computerMove() {
-        Move move;
+        Move move = null;
         do {
+        	System.out.println("test " + move);
             move = p2.getMove();
         } while (!checkIfValidMove(move));
         return move;
