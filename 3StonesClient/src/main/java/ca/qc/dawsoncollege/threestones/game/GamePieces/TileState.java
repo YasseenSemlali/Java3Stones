@@ -12,11 +12,11 @@ public enum TileState {
     public String toString() {
         switch (this) {
             case BLACK:
-                return "B";
+                return " B ";
             case EMPTY:
-                return "E";
+                return " X ";
             case WHITE:
-                return "W";
+                return " W ";
             default:
                 return " ";
         }

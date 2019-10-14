@@ -20,6 +20,7 @@ public class App {
                 try (Socket player1 = servSock.accept()) {
                     LOG.info("Player found");
                     GameSession gs = new GameSession(player1);
+                    gs.run();
                 }
             }
         } catch (IOException e) {

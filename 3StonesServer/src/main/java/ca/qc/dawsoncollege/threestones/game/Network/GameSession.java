@@ -18,7 +18,7 @@ public class GameSession {
     private final static Logger LOG = LoggerFactory.getLogger(GameSession.class);
     private ThreeStonesConnector connection;
     private Board board;
-    private boolean piecesRemaining;
+    private int piecesRemaining;
 
     /**
      * This will run one game within the code.
@@ -31,89 +31,69 @@ public class GameSession {
         this.connection = new ThreeStonesConnector(player1);
         LOG.info("Game session created");
         board = new Board();
-        piecesRemaining = true;
+    }
+
+    public void run() {
         try {
-        	int pieces = 15;
-        	
+            this.piecesRemaining = 15;
             do {
                 byte[] data = connection.receiveData();
+                System.out.println(data[0]);
                 if (data[0] == PacketInfo.QUIT) {
                     LOG.info("Quitting game...");
-                    piecesRemaining = false;
-                } else if (data[0] == PacketInfo.PLAY) {
-                    LOG.info("Starting game...");
-                    board = new Board();
-                } else if (data[0] == PacketInfo.WIN) {
-                    LOG.info("Restarting game...");
-                    board = new Board();
+                    board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
+                    System.out.println(board);
+                    this.piecesRemaining = 0;
                 } else {
-                    LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
-                    serverMove(data[2], data[3]);
-                    pieces--;
+                    //LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
+                    board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
+                    System.out.println(board);
+                    serverMove();
                 }
-            } while (pieces > 0);
+            } while (this.piecesRemaining > 0);
+            System.out.println("sent close");
             System.out.println(board.calculateScore());
-            
-            
+            connection.closeSocket();
         } catch (IOException e) {
+            System.out.println("here");
             LOG.error(e.getMessage());
         }
+        System.exit(0);
     }
 
     /**
      * This method will send the client the results of his movement.
      *
-     * @param x representing the x that player has chosen
-     * @param y representing the y that player has chosen
      * @author Saad
      * @author Yasseen
      */
-    private void serverMove(byte x, byte y) throws IOException {
-        System.out.println("here");
+    private void serverMove() throws IOException {
         byte first;
         byte second;
         byte third;
         byte fourth;
-        board.addMove(x, y, PacketInfo.PLAYER_ONE);
-        System.out.println(board.toString());
-        if (board.checkIfWin()) {
-            LOG.info("Player is making a victory move.");
-            first = PacketInfo.WIN;
-            second = PacketInfo.PLAYER_ONE;
-            third = PacketInfo.SPACE;
-            fourth = PacketInfo.SPACE;
-        } else if (board.checkIfTie()) {
-            LOG.info("Player has made the game a tie.");
-            first = PacketInfo.TIE;
-            second = PacketInfo.PLAYER_ONE;
-            third = PacketInfo.SPACE;
-            fourth = PacketInfo.SPACE;
+
+        Move decision = board.computerMove();
+        board.addMove((byte) decision.getX(), (byte) decision.getY(), PacketInfo.PLAYER_TWO);
+        this.piecesRemaining--;
+        System.out.println("pieces remaining " + this.piecesRemaining);
+        System.out.println(board);
+
+        if (this.piecesRemaining <= 0) {
+            LOG.info("No more pieces.");
+            first = PacketInfo.QUIT;
+            second = PacketInfo.PLAYER_TWO;
+            third = (byte) decision.getX();
+            fourth = (byte) decision.getY();
         } else {
-            Move decision = board.computerMove();
-            board.addMove((byte) decision.getX(), (byte) decision.getY(), PacketInfo.PLAYER_TWO);
-            LOG.info("Adding move at line " + decision + " for computer.");
-            if (board.checkIfWin()) {
-                LOG.info("Computer is making a victory move.");
-                first = PacketInfo.WIN;
-                second = PacketInfo.PLAYER_TWO;
-                third = (byte) decision.getX();
-                fourth = (byte) decision.getY();
-            } else if (board.checkIfTie()) {
-                LOG.info("Computer has made the game a tie.");
-                first = PacketInfo.TIE;
-                second = PacketInfo.PLAYER_TWO;
-                third = (byte) decision.getX();
-                fourth = (byte) decision.getY();
-            } else {
-                LOG.info("Computer has not made " + "a victory or tie move.");
-                first = PacketInfo.MOVE;
-                second = PacketInfo.PLAYER_TWO;
-                third = (byte) decision.getX();
-                fourth = (byte) decision.getY();
-            }
-            LOG.info("Computer is returning his move to client at line: " + decision);
+            first = PacketInfo.MOVE;
+            second = PacketInfo.PLAYER_TWO;
+            third = (byte) decision.getX();
+            fourth = (byte) decision.getY();
         }
+        //LOG.info("Computer is returning his move to client at line: " + decision);
         connection.sendData(first, second, third, fourth);
+
     }
 }
 
