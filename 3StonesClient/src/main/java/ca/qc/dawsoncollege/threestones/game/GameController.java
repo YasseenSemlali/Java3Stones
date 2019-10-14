@@ -2,6 +2,7 @@ package ca.qc.dawsoncollege.threestones.game;
 
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.Score;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.TileState;
 import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
 import ca.qc.dawsoncollege.threestones.game.Network.ThreeStonesConnector;
@@ -16,10 +17,11 @@ import java.util.Scanner;
 
 public class GameController {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(GameController.class);
-    Player p1 = new RandomPlayer(TileState.WHITE);
     Scanner input = new Scanner(System.in);
+    private Player p1;
     private ThreeStonesConnector connection;
     private Board board;
+
 
     public GameController() throws IOException {
         System.out.println("Please input port");
@@ -29,19 +31,36 @@ public class GameController {
     }
 
     public void run() throws IOException {
-        boolean play = true;
         board = new Board();
+        p1 = new RandomPlayer(TileState.WHITE);
         do {
-            Move m1 = board.computerMove();
-            System.out.println(m1.getState());
-            System.out.println(m1.getX());
-            System.out.println(m1.getY());
-            connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
-            processReceivedData();
-            if (board.checkIfWin()) {
-                play = false;
+            Move m1 = computerMove();
+            board.play(m1);
+            p1.usePiece();
+            System.out.println(m1);
+            System.out.println("pieces remaining " + p1.getNumRemainingPieces());
+            System.out.println(board);
+            if (!p1.hasRemainingPieces()) {
+                connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
+            } else {
+                connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
+                processReceivedData();
             }
-        } while (play);
+        } while (p1.hasRemainingPieces());
+        Score current = board.calculateScore();
+        checkWinner(current);
+        connection.closeSocket();
+    }
+
+    private void checkWinner(Score current) {
+        System.out.println(current);
+        if (current.getScore(TileState.WHITE) == current.getScore(TileState.BLACK)) {
+            System.out.println("Tie Game");
+        } else if (current.getScore(TileState.WHITE) > current.getScore(TileState.BLACK)) {
+            System.out.println("Winner White");
+        } else {
+            System.out.println("Winner Black");
+        }
     }
 
     public void processReceivedData() throws IOException {
@@ -52,35 +71,29 @@ public class GameController {
         //data[3]:'move location
         switch (data[0]) {
             case PacketInfo.MOVE:
-                System.out.println("My move");
                 board.addMove(data[2], data[3], data[1]);
-                displayGame();
-                break;
-            case PacketInfo.PLAY:
-                board = new Board();
                 displayGame();
                 break;
             case PacketInfo.QUIT:
-                connection.closeSocket();
-                break;
-            case PacketInfo.WIN:
+                System.out.println("quiting");
                 board.addMove(data[2], data[3], data[1]);
-                displayGame();
-                System.out.println("win");
-                connection.closeSocket();
-                break;
-            case PacketInfo.TIE:
-                board.addMove(data[2], data[3], data[1]);
-                displayGame();
-                System.out.println("tie");
+                p1.setNumRemainingPieces(0);
                 break;
             default:
                 LOG.info("No Data Received From Server");
         }
     }
 
+    public Move computerMove() {
+        Move move;
+        do {
+            move = p1.getMove();
+        } while (!board.checkIfValidMove(move));
+        return move;
+    }
+
     private void displayGame() {
-        System.out.println(board.toString());
+        System.out.println(board);
     }
 
 }

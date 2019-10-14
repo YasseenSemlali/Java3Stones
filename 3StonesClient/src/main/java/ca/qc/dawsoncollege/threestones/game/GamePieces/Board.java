@@ -1,8 +1,6 @@
 package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
 import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
-import ca.qc.dawsoncollege.threestones.game.Player.Player;
-import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 
 public class Board {
     public static final int HEIGHT = 11;
@@ -11,7 +9,6 @@ public class Board {
     public static final int NUM_PIECES = 15;
     public static final int STONES_FOR_POINT = 3;
 
-    Player p1 = new RandomPlayer(TileState.WHITE);
     int lastPlayedX = -1;
     int lastPlayedY = -1;
     private Tile[][] grid;
@@ -49,6 +46,7 @@ public class Board {
         this.get(x, y).setTileState(move.getState());
         this.lastPlayedX = x;
         this.lastPlayedY = y;
+
     }
 
     public boolean checkIfValidMove(Move move) {
@@ -116,7 +114,7 @@ public class Board {
         if (this.lastPlayedX == -1 && this.lastPlayedY == -1)
             return true;
 
-        if (colFree(x) && rowFree(y)) {
+        if (colFree(x) || rowFree(y)) {
             return x == this.lastPlayedX || y == this.lastPlayedY;
         }
 
@@ -155,31 +153,11 @@ public class Board {
     public void addMove(byte x, byte y, byte player) {
         Move move = new Move(x, y);
         if (player == PacketInfo.PLAYER_ONE) {
-            System.out.println("client: white");
             move.setState(TileState.WHITE);
         } else if (player == PacketInfo.PLAYER_TWO) {
-            System.out.println("server: black");
             move.setState(TileState.BLACK);
         }
-        System.out.println("move by");
-        System.out.println(move.toString());
+        System.out.println(move);
         play(move);
-    }
-
-    public boolean checkIfWin() {
-        return false;
-    }
-
-
-    public Move computerMove() {
-        Move move;
-        do {
-            move = p1.getMove();
-        } while (!checkIfValidMove(move));
-        return move;
-    }
-
-    public boolean checkIfTie() {
-        return false;
     }
 }
