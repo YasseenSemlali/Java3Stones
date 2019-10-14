@@ -3,6 +3,7 @@ package ca.qc.dawsoncollege.threestones.game.Player;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
 
 public abstract class Player {
+
     protected int numRemainingPieces;
 
     public abstract Move getMove();
@@ -10,6 +11,12 @@ public abstract class Player {
     public int getNumRemainingPieces() {
         return this.numRemainingPieces;
     }
+
+    public void setNumRemainingPieces(int pieces) {
+        this.numRemainingPieces = pieces;
+    }
+
+    ;
 
     public boolean hasRemainingPieces() {
         return this.numRemainingPieces > 0;

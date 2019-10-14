@@ -6,6 +6,8 @@ import ca.qc.dawsoncollege.threestones.game.GamePieces.Score;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.TileState;
 import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
 import ca.qc.dawsoncollege.threestones.game.Network.ThreeStonesConnector;
+import ca.qc.dawsoncollege.threestones.game.Player.Player;
+import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.util.Scanner;
 public class GameController {
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(GameController.class);
     Scanner input = new Scanner(System.in);
-    int piecesRemaining;
+    private Player p1;
     private ThreeStonesConnector connection;
     private Board board;
 
@@ -30,21 +32,21 @@ public class GameController {
 
     public void run() throws IOException {
         board = new Board();
-        this.piecesRemaining = 15;
+        p1 = new RandomPlayer(TileState.WHITE);
         do {
-            Move m1 = board.computerMove();
+            Move m1 = computerMove();
             board.play(m1);
-            this.piecesRemaining--;
-            System.out.println("pieces remaining " + this.piecesRemaining);
+            p1.usePiece();
             System.out.println(m1);
+            System.out.println("pieces remaining " + p1.getNumRemainingPieces());
             System.out.println(board);
-            if (piecesRemaining <= 0) {
+            if (!p1.hasRemainingPieces()) {
                 connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
             } else {
                 connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
                 processReceivedData();
             }
-        } while (this.piecesRemaining > 0);
+        } while (p1.hasRemainingPieces());
         Score current = board.calculateScore();
         checkWinner(current);
         connection.closeSocket();
@@ -75,11 +77,19 @@ public class GameController {
             case PacketInfo.QUIT:
                 System.out.println("quiting");
                 board.addMove(data[2], data[3], data[1]);
-                this.piecesRemaining = 0;
+                p1.setNumRemainingPieces(0);
                 break;
             default:
                 LOG.info("No Data Received From Server");
         }
+    }
+
+    public Move computerMove() {
+        Move move;
+        do {
+            move = p1.getMove();
+        } while (!board.checkIfValidMove(move));
+        return move;
     }
 
     private void displayGame() {

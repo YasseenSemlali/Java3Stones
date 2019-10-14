@@ -12,6 +12,10 @@ public abstract class Player {
         return this.numRemainingPieces;
     }
 
+    public void setNumRemainingPieces(int pieces) {
+        this.numRemainingPieces = pieces;
+    }
+
     public boolean hasRemainingPieces() {
         return this.numRemainingPieces > 0;
     }
@@ -22,4 +26,5 @@ public abstract class Player {
         }
         this.numRemainingPieces--;
     }
+
 }

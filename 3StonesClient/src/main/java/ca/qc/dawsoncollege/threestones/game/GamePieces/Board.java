@@ -1,8 +1,6 @@
 package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
 import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
-import ca.qc.dawsoncollege.threestones.game.Player.Player;
-import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 
 public class Board {
     public static final int HEIGHT = 11;
@@ -11,7 +9,6 @@ public class Board {
     public static final int NUM_PIECES = 15;
     public static final int STONES_FOR_POINT = 3;
 
-    Player p1 = new RandomPlayer(TileState.WHITE);
     int lastPlayedX = -1;
     int lastPlayedY = -1;
     private Tile[][] grid;
@@ -162,13 +159,5 @@ public class Board {
         }
         System.out.println(move);
         play(move);
-    }
-
-    public Move computerMove() {
-        Move move;
-        do {
-            move = p1.getMove();
-        } while (!checkIfValidMove(move));
-        return move;
     }
 }

@@ -5,6 +5,8 @@ import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Score;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.TileState;
+import ca.qc.dawsoncollege.threestones.game.Player.Player;
+import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +22,7 @@ public class GameSession {
     private final static Logger LOG = LoggerFactory.getLogger(GameSession.class);
     private ThreeStonesConnector connection;
     private Board board;
-    private int piecesRemaining;
+    private Player p2;
 
     /**
      * This will run one game within the code.
@@ -37,22 +39,21 @@ public class GameSession {
 
     public void run() {
         try {
-            this.piecesRemaining = 15;
+            p2 = new RandomPlayer(TileState.BLACK);
             do {
                 byte[] data = connection.receiveData();
-                System.out.println(data[0]);
                 if (data[0] == PacketInfo.QUIT) {
                     LOG.info("Quitting game...");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
-                    this.piecesRemaining = 0;
+                    p2.setNumRemainingPieces(0);
                 } else {
                     //LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
                     serverMove();
                 }
-            } while (this.piecesRemaining > 0);
+            } while (p2.hasRemainingPieces());
             Score current = board.calculateScore();
             checkWinner(current);
             connection.closeSocket();
@@ -85,13 +86,13 @@ public class GameSession {
         byte third;
         byte fourth;
 
-        Move decision = board.computerMove();
+        Move decision = computerMove();
         board.addMove((byte) decision.getX(), (byte) decision.getY(), PacketInfo.PLAYER_TWO);
-        this.piecesRemaining--;
-        System.out.println("pieces remaining " + this.piecesRemaining);
+        p2.usePiece();
+        System.out.println("pieces remaining " + p2.getNumRemainingPieces());
         System.out.println(board);
 
-        if (this.piecesRemaining <= 0) {
+        if (!p2.hasRemainingPieces()) {
             LOG.info("No more pieces.");
             first = PacketInfo.QUIT;
             second = PacketInfo.PLAYER_TWO;
@@ -105,7 +106,14 @@ public class GameSession {
         }
         //LOG.info("Computer is returning his move to client at line: " + decision);
         connection.sendData(first, second, third, fourth);
+    }
 
+    public Move computerMove() {
+        Move move = null;
+        do {
+            move = p2.getMove();
+        } while (!board.checkIfValidMove(move));
+        return move;
     }
 }
 

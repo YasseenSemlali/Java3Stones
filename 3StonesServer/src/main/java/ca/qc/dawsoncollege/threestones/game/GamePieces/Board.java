@@ -163,21 +163,4 @@ public class Board {
         System.out.println(move);
         play(move);
     }
-
-    public boolean checkIfWin() {
-        return false;
-    }
-
-
-    public Move computerMove() {
-        Move move = null;
-        do {
-            move = p2.getMove();
-        } while (!checkIfValidMove(move));
-        return move;
-    }
-
-    public boolean checkIfTie() {
-        return false;
-    }
 }
