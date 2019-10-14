@@ -3,6 +3,8 @@ package ca.qc.dawsoncollege.threestones.game.Network;
 
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.Score;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.TileState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,14 +53,24 @@ public class GameSession {
                     serverMove();
                 }
             } while (this.piecesRemaining > 0);
-            System.out.println("sent close");
-            System.out.println(board.calculateScore());
+            Score current = board.calculateScore();
+            checkWinner(current);
             connection.closeSocket();
         } catch (IOException e) {
-            System.out.println("here");
             LOG.error(e.getMessage());
         }
         System.exit(0);
+    }
+
+    private void checkWinner(Score current) {
+        System.out.println(current);
+        if (current.getScore(TileState.WHITE) == current.getScore(TileState.BLACK)) {
+            System.out.println("Tie Game");
+        } else if (current.getScore(TileState.WHITE) > current.getScore(TileState.BLACK)) {
+            System.out.println("Winner White");
+        } else {
+            System.out.println("Winner Black");
+        }
     }
 
     /**

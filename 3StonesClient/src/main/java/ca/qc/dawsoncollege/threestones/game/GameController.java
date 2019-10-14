@@ -2,6 +2,8 @@ package ca.qc.dawsoncollege.threestones.game;
 
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.Score;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.TileState;
 import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
 import ca.qc.dawsoncollege.threestones.game.Network.ThreeStonesConnector;
 import org.slf4j.LoggerFactory;
@@ -43,9 +45,20 @@ public class GameController {
                 processReceivedData();
             }
         } while (this.piecesRemaining > 0);
-        System.out.println("out of pieces");
-        System.out.println(board.calculateScore());
+        Score current = board.calculateScore();
+        checkWinner(current);
         connection.closeSocket();
+    }
+
+    private void checkWinner(Score current) {
+        System.out.println(current);
+        if (current.getScore(TileState.WHITE) == current.getScore(TileState.BLACK)) {
+            System.out.println("Tie Game");
+        } else if (current.getScore(TileState.WHITE) > current.getScore(TileState.BLACK)) {
+            System.out.println("Winner White");
+        } else {
+            System.out.println("Winner Black");
+        }
     }
 
     public void processReceivedData() throws IOException {
@@ -70,7 +83,7 @@ public class GameController {
     }
 
     private void displayGame() {
-        System.out.println(board.toString());
+        System.out.println(board);
     }
 
 }
