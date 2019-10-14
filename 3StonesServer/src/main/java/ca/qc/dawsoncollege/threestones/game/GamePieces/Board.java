@@ -117,7 +117,7 @@ public class Board {
         if (this.lastPlayedX == -1 && this.lastPlayedY == -1)
             return true;
 
-        if (colFree(x) && rowFree(y)) {
+        if (colFree(x) || rowFree(y)) {
             return x == this.lastPlayedX || y == this.lastPlayedY;
         }
 
@@ -156,31 +156,11 @@ public class Board {
     public void addMove(byte x, byte y, byte player) {
         Move move = new Move(x, y);
         if (player == PacketInfo.PLAYER_ONE) {
-            System.out.println("client: white");
             move.setState(TileState.WHITE);
         } else if (player == PacketInfo.PLAYER_TWO) {
-            System.out.println("server: black");
             move.setState(TileState.BLACK);
         }
-        System.out.println("move by");
-        System.out.println(move.toString());
+        System.out.println(move);
         play(move);
-    }
-
-    public boolean checkIfWin() {
-        return false;
-    }
-
-
-    public Move computerMove() {
-        Move move;
-        do {
-            move = p2.getMove();
-        } while (!checkIfValidMove(move));
-        return move;
-    }
-
-    public boolean checkIfTie() {
-        return false;
     }
 }

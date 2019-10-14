@@ -21,7 +21,7 @@ public class NetworkPlayer extends Player {
     }
 
     public Move getMove() {
-        System.out.println("Please input port");
+        System.out.println("Player1 Move");
         System.out.println("x");
         int x = input.nextInt();
         System.out.println("y");
