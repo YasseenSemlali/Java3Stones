@@ -14,14 +14,14 @@ import java.net.Socket;
  *
  * @author Saad
  */
-public class GameSession {
+public class GameSession{
     private final static Logger LOG = LoggerFactory.getLogger(GameSession.class);
     private ThreeStonesConnector connection;
     private Board board;
     private boolean piecesRemaining;
 
     /**
-     * This will run one game within the code.
+     * This will start one game session
      *
      * @param player1 representing the player who made the move.
      * @author Saad

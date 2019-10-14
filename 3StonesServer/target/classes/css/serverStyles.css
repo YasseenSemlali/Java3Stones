@@ -1,0 +1,21 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct. 12, 2019, 6:42:04 p.m.
+    Author     : Jean
+*/
+.root{
+    -fx-background-image: url('../images/serverBackground.jpg');
+    -fx-background-size: cover;
+}
+#portIpBut{
+    -fx-font-size: 19;
+    -fx-font-family: "Segoe UI Semibold";
+}
+#title{
+    -fx-font-size: 30;
+    -fx-font-family: "Segoe UI Black";
+}
