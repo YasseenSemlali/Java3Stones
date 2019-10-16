@@ -24,8 +24,7 @@ public class GameController {
 
 
     public GameController() throws IOException {
-        System.out.println("Please input port");
-        int port = input.nextInt();
+        int port = 50000;
         InetAddress ip = InetAddress.getLocalHost();
         this.connection = new ThreeStonesConnector(new Socket(ip, port));
     }

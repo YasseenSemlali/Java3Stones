@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class App {
     public static void main(String[] args) throws IOException {
-        GameController session = new GameController();
-        session.run();
+        //GameController session = new GameController();
+        //session.run();
 
 //    	Player p2 = new AIPlayer();
 //
