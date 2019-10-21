@@ -15,6 +15,7 @@ import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -35,6 +36,8 @@ public class GameFXMLController {
     
     Player p1;
     
+    Node lastMove;
+    
     ThreeStonesConnector connection;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -49,41 +52,52 @@ public class GameFXMLController {
     public void initialize() throws IOException {
         // TODO
         addEventGrid();
-        //startGame();
-    }      
+    }
+    /***
+     * Method that add events to all cells withing grid
+     * @author Jean Naima
+     */
     private void addEventGrid() {
         ObservableList <Node> children = gridPane.getChildren();
-        LOG.info("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        LOG.info("Events added to grid");
         for(Node node : children){
             node.setId("circle");
-        }
-        
+            node.setOnMouseClicked(e -> {try {
+                clientMove(e);
+                } catch (IOException ex) {
+                    LOG.info(ex.getMessage());
+                }
+            });
+        }     
     }
+    
+    /**
+     * Set Connection to connect so server
+     * @param ip server ip input in mainStage
+     * @param port server port input in mainStage
+     * @throws IOException 
+     * @author Jean Naima
+     */
     public void setConnection(String ip, int port) throws IOException{
         connection = new ThreeStonesConnector(ip,port);
     }
+    
+    /**
+     * Method to start new game
+     * Initializes board and player
+     * @throws IOException 
+     * @author Jean Naima
+     */
     public void startGame() throws IOException {
         board = new Board();
         p1 = new RandomPlayer(TileState.WHITE);
-        do {
-            Move m1 = computerMove();
-            board.play(m1);
-            p1.usePiece();
-          //  System.out.println(m1);
-           // System.out.println("pieces remaining " + p1.getNumRemainingPieces());
-           // System.out.println(board);
-            if (!p1.hasRemainingPieces()) {
-                connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
-            } else {
-                connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) m1.getX(), (byte) m1.getY());
-                processReceivedData();
-            }
-        } while (p1.hasRemainingPieces());
-        Score current = board.calculateScore();
-        checkWinner(current);
-        connection.closeSocket();
     }
-
+    
+    
+    /**
+     * Checks winner based on current score
+     * @param current 
+     */
     private void checkWinner(Score current) {
         System.out.println(current);
         if (current.getScore(TileState.WHITE) == current.getScore(TileState.BLACK)) {
@@ -95,6 +109,11 @@ public class GameFXMLController {
         }
     }
 
+    /**
+     * gets move made by server
+     * @throws IOException 
+     * @author Saad
+     */
     public void processReceivedData() throws IOException {
         byte[] data = connection.receiveData();
         //data[0]: move message type
@@ -104,32 +123,87 @@ public class GameFXMLController {
         switch (data[0]) {
             case PacketInfo.MOVE:
                 board.addMove(data[2], data[3], data[1]);
+                movePlayedServer(data[2],data[3]);
                 break;
             case PacketInfo.QUIT:
                 System.out.println("quiting");
                 board.addMove(data[2], data[3], data[1]);
+                movePlayedServer(data[2],data[3]);
                 p1.setNumRemainingPieces(0);
                 break;
             default:
                 LOG.info("No Data Received From Server");
         }
     }
-
-    public Move computerMove() {
-        Move move;
-        do {
-            move = p1.getMove();
-        } while (!board.checkIfValidMove(move));
-        movePlayedComputer(move.getX(),move.getY());
-        return move;
-    }
-    public void movePlayedComputer(int x, int y){
+    
+    /**
+     * Handles the GUI part of the move made by the client
+     * @param x x position of the move
+     * @param y y position of the move
+     * @author Jean Naima
+     */
+    public void movePlayedClient(int x, int y){
         ObservableList<Node> childrens = gridPane.getChildren();
         for (Node node : childrens) {
             if(gridPane.getRowIndex(node) == x && gridPane.getColumnIndex(node) == y) {
-            node.setId("clickedW");
+                if(lastMove == null){
+                    lastMove = node; 
+                    node.setId("lastClickedW");
+                }else{
+                    lastMove.setId("clickedB");
+                    lastMove = node;
+                    node.setId("lastClickedW");
+            }
+            break;
+            }
         }
     }
+    /**
+     * Handles the GUI part of the move made by the server
+     * @param x x position of the move
+     * @param y y position of the move
+     * @author Jean Naima
+     */
+    public void movePlayedServer(byte x, byte y){
+        ObservableList<Node> childrens = gridPane.getChildren();
+        Move move = new Move(x,y);
+        for (Node node : childrens) {
+            if(gridPane.getRowIndex(node) == x && gridPane.getColumnIndex(node) == y) {
+                if(lastMove == null){
+                    lastMove = node; 
+                    node.setId("lastClickedB");
+                }else{
+                    lastMove.setId("clickedW");
+                    lastMove = node;
+                    node.setId("lastClickedB");
+                }
+            }
+        }
+    }
+    /**
+     * OnClick event handler of grid
+     * handles Move made by client, makes sure it is valid
+     * @param e mouseClick event
+     * @throws IOException 
+     * @author Jean Naima
+     */
+    private void clientMove(MouseEvent e) throws IOException{
+        Node node = (Node) e.getSource();
+        Move move = new Move(gridPane.getRowIndex(node).byteValue(),gridPane.getColumnIndex(node).byteValue());
+        
+        if(board.checkIfValidMove(move) && p1.hasRemainingPieces()){ 
+            board.play(move);
+            movePlayedClient(move.getX(),move.getY());
+            node.setOnMouseClicked(null);
+            p1.usePiece();
+            if (!p1.hasRemainingPieces()) {
+                connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
+            } else {
+                connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
+                processReceivedData();
+            }
+        }
+        
     }
 }
     

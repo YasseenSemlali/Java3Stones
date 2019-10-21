@@ -11,7 +11,7 @@
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" stylesheets="@../css/clientStyles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.qc.dawsoncollege.threestones.GameFXMLController">
     <children>
       <Text id="title" layoutX="254.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Three Stones" />
-      <GridPane fx:id="gridPane" layoutX="185.0" layoutY="95.0">
+      <GridPane fx:id="gridPane" layoutX="185.0" layoutY="95.0" gridLinesVisible="true">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="30.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="30.0" />
@@ -39,18 +39,18 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="5" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="6" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="7" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="1" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="6" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="7" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="0" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="1" />
@@ -61,7 +61,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="1" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="1" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="1" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="2" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="2" />
@@ -72,7 +72,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="2" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="2" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="2" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="3" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="3" />
@@ -83,7 +83,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="3" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="3" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="3" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="4" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="4" />
@@ -94,7 +94,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="4" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="4" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="4" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="5" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="5" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="5" />
@@ -105,7 +105,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="5" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="5" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="5" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="6" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="6" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="6" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="6" />
@@ -116,7 +116,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="6" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="6" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="6" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="7" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="7" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="7" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="7" />
@@ -127,7 +127,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="7" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="7" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="7" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="8" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="8" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="8" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="8" />
@@ -138,7 +138,7 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="8" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="8" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="8" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="9" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="9" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="9" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="9" />
@@ -149,7 +149,7 @@
             <Circle fill="#1a7bd6" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="8" GridPane.rowIndex="9" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="9" GridPane.rowIndex="9" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="9" />
-            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="10" />
+            <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="0" GridPane.rowIndex="10" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="10" />
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="3" GridPane.rowIndex="10" />
@@ -162,6 +162,6 @@
             <Circle fill="DODGERBLUE" radius="15.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="10" />
          </children>
       </GridPane>
-      <Button id="portIpBut" layoutX="23.0" layoutY="95.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="115.0" text="Button" />
+      <Button layoutX="35.0" layoutY="95.0" mnemonicParsing="false" prefHeight="10.0" prefWidth="117.0" text="Start New Game" onAction="#startGame"/>
    </children>
 </AnchorPane>

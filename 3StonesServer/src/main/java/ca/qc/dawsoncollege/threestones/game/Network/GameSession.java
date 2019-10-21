@@ -38,9 +38,12 @@ public class GameSession{
     }
 
     public void run() {
+        LOG.info("We running!");
         try {
+            LOG.info("We TRying!!!!!");
             p2 = new RandomPlayer(TileState.BLACK);
             do {
+                LOG.info("We Doing !!!!");
                 byte[] data = connection.receiveData();
                 if (data[0] == PacketInfo.QUIT) {
                     LOG.info("Quitting game...");
@@ -48,7 +51,7 @@ public class GameSession{
                     System.out.println(board);
                     p2.setNumRemainingPieces(0);
                 } else {
-                    //LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
+                    LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
                     serverMove();

@@ -87,8 +87,6 @@ public class MainFXMLController {
             }
             GameFXMLController gameController = loader.getController();
             gameController.setConnection(ipInput.getText(),Integer.parseInt(portInput.getText()));
-           // GameController gs = new GameController();
-            //gs.run();
             AnchorPane root = loader.getRoot();
             Stage gameStage = new Stage();
             gameStage.setTitle("Three Stones");
