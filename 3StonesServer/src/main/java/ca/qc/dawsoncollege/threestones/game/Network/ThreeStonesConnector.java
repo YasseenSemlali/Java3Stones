@@ -18,6 +18,7 @@ public class ThreeStonesConnector {
     private Socket servSocket;
     private InputStream in;
     private OutputStream out;
+    private boolean isClosed;
 
     /**
      * Primary Constructor for this class which takes an string and int in case of only having those
@@ -34,6 +35,7 @@ public class ThreeStonesConnector {
             this.servSocket = new Socket(server, port);
             in = servSocket.getInputStream();
             out = servSocket.getOutputStream();
+            isClosed = false;
         } catch (IOException e) {
             LOG.error(e.getMessage());
             throw e;
@@ -52,6 +54,7 @@ public class ThreeStonesConnector {
         try {
             in = servSocket.getInputStream();
             out = servSocket.getOutputStream();
+            isClosed = false;
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }
@@ -95,7 +98,10 @@ public class ThreeStonesConnector {
      * @throws java.io.IOException
      */
     public void closeSocket() throws IOException {
+        isClosed = true;
         servSocket.close();
     }
-
+    public boolean isClosed(){
+        return isClosed;
+    }
 }

@@ -52,6 +52,8 @@ public class GameFXMLController {
     public void initialize() throws IOException {
         // TODO
         addEventGrid();
+        board = new Board();
+        p1 = new RandomPlayer(TileState.WHITE);
     }
     /***
      * Method that add events to all cells withing grid
@@ -89,8 +91,10 @@ public class GameFXMLController {
      * @author Jean Naima
      */
     public void startGame() throws IOException {
+        addEventGrid();
         board = new Board();
         p1 = new RandomPlayer(TileState.WHITE);
+        connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
     }
     
     
@@ -177,6 +181,7 @@ public class GameFXMLController {
                     lastMove = node;
                     node.setId("lastClickedB");
                 }
+                break;
             }
         }
     }

@@ -37,7 +37,7 @@ public class GameSession{
         board = new Board();
     }
 
-    public void run() {
+    public void run() throws IOException {
         LOG.info("We running!");
         try {
             LOG.info("We TRying!!!!!");
@@ -50,7 +50,9 @@ public class GameSession{
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
                     p2.setNumRemainingPieces(0);
-                } else {
+                } else if(data[0] == PacketInfo.NEW_GAME){
+                    run();
+                }else{
                     LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
@@ -59,11 +61,11 @@ public class GameSession{
             } while (p2.hasRemainingPieces());
             Score current = board.calculateScore();
             checkWinner(current);
-            connection.closeSocket();
+            this.connection.closeSocket();
+            LOG.info("Socket Closed!");
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }
-        System.exit(0);
     }
 
     private void checkWinner(Score current) {

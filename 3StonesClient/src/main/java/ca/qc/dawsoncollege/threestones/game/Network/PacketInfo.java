@@ -21,4 +21,7 @@ public class PacketInfo {
 
     //used as place holder
     public static final byte SPACE = 99;
+    
+    //start new Game
+    public static final byte NEW_GAME =9;
 }
