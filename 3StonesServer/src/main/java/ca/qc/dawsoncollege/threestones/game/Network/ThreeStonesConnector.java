@@ -19,6 +19,8 @@ public class ThreeStonesConnector {
     private InputStream in;
     private OutputStream out;
     private boolean isClosed;
+    
+    private byte[] cachedData;
 
     /**
      * Primary Constructor for this class which takes an string and int in case of only having those
@@ -82,16 +84,23 @@ public class ThreeStonesConnector {
      * @author Saad
      * @throws java.io.IOException
      */
-    public byte[] receiveData() throws IOException {
+    public void receiveData() throws IOException {
         byte[] receivedData = new byte[4];
         int receivedBytes = 0;
         while (receivedBytes < 4) {
             receivedBytes = in.read(receivedData);
             if (receivedBytes == -1 ){
-                return receivedData;
+                this.cachedData = receivedData;
+                //return receivedData;
             }
         }
-        return receivedData;
+        
+        this.cachedData = receivedData;
+        //return receivedData;
+    }
+    
+    public byte[] getReceivedData() {
+        return this.cachedData;
     }
 
     /**
