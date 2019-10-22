@@ -17,7 +17,7 @@
     <property name="user.country" value="CA"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-12.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\romio\AppData\Local\Temp\surefire7215843376891745438\surefirebooter4777264204919588894.jar C:\Users\romio\AppData\Local\Temp\surefire7215843376891745438 2019-10-22T11-21-43_535-jvmRun1 surefire15601163510638690939tmp surefire_07305093658166101670tmp"/>
+    <property name="sun.java.command" value="C:\Users\romio\AppData\Local\Temp\surefire2545534382012128430\surefirebooter9701204725307557078.jar C:\Users\romio\AppData\Local\Temp\surefire2545534382012128430 2019-10-22T13-55-19_323-jvmRun1 surefire8624674094212887194tmp surefire_016322635855716030782tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\romio\Desktop\Jean\Networking\3Stones\3stones\3StonesServer\target\test-classes;C:\Users\romio\Desktop\Jean\Networking\3Stones\3stones\3StonesServer\target\classes;C:\Users\romio\.m2\repository\org\slf4j\slf4j-api\1.7.26\slf4j-api-1.7.26.jar;C:\Users\romio\.m2\repository\org\apache\logging\log4j\log4j-slf4j-impl\2.12.0\log4j-slf4j-impl-2.12.0.jar;C:\Users\romio\.m2\repository\org\apache\logging\log4j\log4j-api\2.12.0\log4j-api-2.12.0.jar;C:\Users\romio\.m2\repository\org\apache\logging\log4j\log4j-core\2.12.0\log4j-core-2.12.0.jar;C:\Users\romio\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.5.1\junit-jupiter-engine-5.5.1.jar;C:\Users\romio\.m2\repository\org\apiguardian\apiguardian-api\1.1.0\apiguardian-api-1.1.0.jar;C:\Users\romio\.m2\repository\org\junit\platform\junit-platform-engine\1.5.1\junit-platform-engine-1.5.1.jar;C:\Users\romio\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\romio\.m2\repository\org\junit\platform\junit-platform-commons\1.5.1\junit-platform-commons-1.5.1.jar;C:\Users\romio\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.5.1\junit-jupiter-api-5.5.1.jar;C:\Users\romio\.m2\repository\org\junit\vintage\junit-vintage-engine\5.5.1\junit-vintage-engine-5.5.1.jar;C:\Users\romio\.m2\repository\junit\junit\4.12\junit-4.12.jar;C:\Users\romio\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-graphics\12.0.2\javafx-graphics-12.0.2-win.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-graphics\12.0.2\javafx-graphics-12.0.2-mac.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-controls\12.0.2\javafx-controls-12.0.2.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-controls\12.0.2\javafx-controls-12.0.2-win.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-graphics\12.0.2\javafx-graphics-12.0.2.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-base\12.0.2\javafx-base-12.0.2.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-base\12.0.2\javafx-base-12.0.2-win.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-fxml\12.0.2\javafx-fxml-12.0.2.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-fxml\12.0.2\javafx-fxml-12.0.2-win.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-web\12.0.2\javafx-web-12.0.2.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-web\12.0.2\javafx-web-12.0.2-win.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-media\12.0.2\javafx-media-12.0.2.jar;C:\Users\romio\.m2\repository\org\openjfx\javafx-media\12.0.2\javafx-media-12.0.2-win.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -33,7 +33,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="C:\Users\romio\AppData\Local\Temp\surefire7215843376891745438\surefirebooter4777264204919588894.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\romio\AppData\Local\Temp\surefire2545534382012128430\surefirebooter9701204725307557078.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="12.0.2+10"/>
@@ -59,5 +59,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="56.0"/>
   </properties>
-  <testcase name="testApp" classname="ca.qc.dawsoncollege.threestones.AppTest" time="0.001"/>
+  <testcase name="testApp" classname="ca.qc.dawsoncollege.threestones.AppTest" time="0"/>
 </testsuite>
