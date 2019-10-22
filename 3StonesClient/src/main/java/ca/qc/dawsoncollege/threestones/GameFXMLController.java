@@ -99,6 +99,7 @@ public class GameFXMLController {
         board = new Board();
         connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
         addEventGrid();
+        System.out.println(board);
     }
     
     
@@ -207,6 +208,7 @@ public class GameFXMLController {
             numPieces--;
             if (numPieces == 0) {
                 connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
+                processReceivedData();
             } else {
                 connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
                 processReceivedData();
