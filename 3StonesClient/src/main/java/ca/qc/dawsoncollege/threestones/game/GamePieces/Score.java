@@ -23,10 +23,12 @@ public class Score {
 
     public String toString() {
         String s = "";
-
+        
         for (TileState state : scoreMap.keySet()) {
-            s += state + ": " + scoreMap.get(state) + "\n";
+            s += state + ": " + scoreMap.get(state) + " | ";
         }
+        
         return s;
     }
+    
 }

@@ -1,6 +1,6 @@
 package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
-public class Tile {
+public class Tile implements Cloneable {
     private final int x;
     private final int y;
     private TileState state;
@@ -11,6 +11,10 @@ public class Tile {
         this.state = state;
     }
 
+    public Tile clone() {
+        return new Tile(x,y,state);
+    }
+    
     public void setTileState(TileState state) {
         this.state = state;
     }

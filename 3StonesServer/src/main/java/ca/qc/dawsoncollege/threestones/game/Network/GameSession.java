@@ -2,9 +2,11 @@ package ca.qc.dawsoncollege.threestones.game.Network;
 
 
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.ImmutableBoard;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Score;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.TileState;
+import ca.qc.dawsoncollege.threestones.game.Player.AIPlayer;
 import ca.qc.dawsoncollege.threestones.game.Player.Player;
 import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 import org.slf4j.Logger;
@@ -18,14 +20,14 @@ import java.net.Socket;
  *
  * @author Saad
  */
-public class GameSession {
+public class GameSession{
     private final static Logger LOG = LoggerFactory.getLogger(GameSession.class);
     private ThreeStonesConnector connection;
     private Board board;
     private Player p2;
 
     /**
-     * This will run one game within the code.
+     * This will start one game session
      *
      * @param player1 representing the player who made the move.
      * @author Saad
@@ -33,22 +35,26 @@ public class GameSession {
      */
     public GameSession(Socket player1) {
         this.connection = new ThreeStonesConnector(player1);
-        LOG.info("Game session created");
-        board = new Board();
     }
 
-    public void run() {
+    public void run() throws IOException {
+        LOG.info("Game session created");
+        board = new Board();
+        
+        p2 = new AIPlayer(TileState.BLACK, new ImmutableBoard(board));
         try {
-            p2 = new RandomPlayer(TileState.BLACK);
             do {
                 byte[] data = connection.receiveData();
                 if (data[0] == PacketInfo.QUIT) {
                     LOG.info("Quitting game...");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
+                    serverMove();
                     p2.setNumRemainingPieces(0);
-                } else {
-                    //LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
+                } else if(data[0] == PacketInfo.NEW_GAME){
+                    run();
+                }else{
+                    LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
                     serverMove();
@@ -56,11 +62,19 @@ public class GameSession {
             } while (p2.hasRemainingPieces());
             Score current = board.calculateScore();
             checkWinner(current);
-            connection.closeSocket();
+           do{
+               byte[] data = connection.receiveData();
+               if(data[0] == PacketInfo.NEW_GAME){
+                   run();
+               }
+               else{
+                   connection.closeSocket();
+               }
+           } 
+           while(true);
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }
-        System.exit(0);
     }
 
     private void checkWinner(Score current) {
