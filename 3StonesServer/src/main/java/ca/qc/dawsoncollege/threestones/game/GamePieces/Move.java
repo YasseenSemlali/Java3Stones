@@ -11,11 +11,6 @@ public class Move {
         this.state = state;
     }
 
-    public Move(byte x, byte y) {
-        this.x = x;
-        this.y = y;
-    }
-
     @Override
     public String toString() {
         return "Move{" +

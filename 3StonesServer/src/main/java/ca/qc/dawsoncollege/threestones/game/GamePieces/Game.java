@@ -3,6 +3,7 @@ package ca.qc.dawsoncollege.threestones.game.GamePieces;
 import ca.qc.dawsoncollege.threestones.game.Player.Player;
 
 public class Game {
+    /*
     public void run(Player... players) {
         Board board = new Board();
         System.out.println(board);
@@ -30,4 +31,5 @@ public class Game {
             System.out.println(board.calculateScore());
         }
     }
+*/
 }

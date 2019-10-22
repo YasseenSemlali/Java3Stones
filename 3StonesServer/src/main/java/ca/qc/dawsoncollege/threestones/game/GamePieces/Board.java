@@ -182,7 +182,8 @@ public class Board implements Cloneable
         return sb.toString();
     }
 
-    public void addMove(byte x, byte y, byte player) {
+    /*
+    public void addMoveasdf(byte x, byte y, byte player) {
         Move move = new Move(x, y);
         if (player == PacketInfo.PLAYER_ONE) {
             move.setState(TileState.WHITE);
@@ -192,6 +193,7 @@ public class Board implements Cloneable
         System.out.println(move);
         play(move);
     }
+*/
 
     private Tile[][] getGridClone() {
         Tile[][] grid = new Tile[WIDTH][HEIGHT];
