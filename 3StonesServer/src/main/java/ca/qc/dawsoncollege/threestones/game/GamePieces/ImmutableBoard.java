@@ -28,6 +28,24 @@ public class ImmutableBoard {
         return this.board.calculateScore();
     }
     
+    public int getNumAdjacent(int x, int y, TileState state) {
+        int n = 0;
+        for(int i = -1; i < 2; i++) {
+            for(int j = -1; j < 2; j++) {
+                if(i != 0 || j != 0) {
+                    try{
+                        if(this.get(x + i, y + j).getState() == state) {
+                            n++;
+                        }
+                    } catch(IndexOutOfBoundsException ignored) {
+                        //ignore
+                    }
+                }
+            }
+        }
+        return n;
+    }
+    
     public Board getBoardCopy() {
         return this.board.clone();
     }
