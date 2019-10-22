@@ -33,17 +33,14 @@ public class GameSession{
      */
     public GameSession(Socket player1) {
         this.connection = new ThreeStonesConnector(player1);
-        LOG.info("Game session created");
-        board = new Board();
     }
 
     public void run() throws IOException {
-        LOG.info("We running!");
+        LOG.info("Game session created");
+        board = new Board();
         try {
-            LOG.info("We TRying!!!!!");
             p2 = new RandomPlayer(TileState.BLACK);
             do {
-                LOG.info("We Doing !!!!");
                 byte[] data = connection.receiveData();
                 if (data[0] == PacketInfo.QUIT) {
                     LOG.info("Quitting game...");
@@ -61,8 +58,16 @@ public class GameSession{
             } while (p2.hasRemainingPieces());
             Score current = board.calculateScore();
             checkWinner(current);
-            this.connection.closeSocket();
-            LOG.info("Socket Closed!");
+           do{
+               byte[] data = connection.receiveData();
+               if(data[0] == PacketInfo.NEW_GAME){
+                   run();
+               }
+               else{
+                   connection.closeSocket();
+               }
+           } 
+           while(true);
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }

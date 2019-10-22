@@ -67,7 +67,7 @@ public class GameFXMLController {
             node.setOnMouseClicked(e -> {try {
                 clientMove(e);
                 } catch (IOException ex) {
-                    LOG.info(ex.getMessage());
+                    LOG.info("AAAAAA  " + ex.getMessage());
                 }
             });
         }     
@@ -92,6 +92,7 @@ public class GameFXMLController {
      */
     public void startGame() throws IOException {
         addEventGrid();
+        lastMove= null;
         board = new Board();
         p1 = new RandomPlayer(TileState.WHITE);
         connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
@@ -195,6 +196,7 @@ public class GameFXMLController {
     private void clientMove(MouseEvent e) throws IOException{
         Node node = (Node) e.getSource();
         Move move = new Move(gridPane.getRowIndex(node).byteValue(),gridPane.getColumnIndex(node).byteValue());
+        LOG.info("INFOOO ::      " + move.getX()+ "        " + move.getY());
         
         if(board.checkIfValidMove(move) && p1.hasRemainingPieces()){ 
             board.play(move);
@@ -203,8 +205,10 @@ public class GameFXMLController {
             p1.usePiece();
             if (!p1.hasRemainingPieces()) {
                 connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
+                LOG.info("AAA MOVES");
             } else {
                 connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
+                LOG.info("HOMIE MOVES");
                 processReceivedData();
             }
         }
