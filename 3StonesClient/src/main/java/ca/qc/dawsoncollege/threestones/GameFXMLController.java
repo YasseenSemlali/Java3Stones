@@ -69,7 +69,8 @@ public class GameFXMLController {
                 node.setOnMouseClicked(e -> {try {
                     clientMove(e);
                     } catch (IOException ex) {
-                        LOG.info(ex.getMessage());
+                        LOG.info("Connection with Server lost!");
+                        removeEvents();
                     }
                 });
             } 
@@ -142,6 +143,7 @@ public class GameFXMLController {
                 break;
             default:
                 LOG.info("No Data Received From Server");
+
         }
     }
     
@@ -189,6 +191,18 @@ public class GameFXMLController {
                 break;
             }
         }
+    }
+    /**
+     * Removes Events
+     * @author Jean
+     * 
+     */
+    private void removeEvents(){
+        LOG.info("Removing click events");
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for (Node node : childrens) {
+            node.setOnMouseClicked(null);
+        }   
     }
     /**
      * OnClick event handler of grid
