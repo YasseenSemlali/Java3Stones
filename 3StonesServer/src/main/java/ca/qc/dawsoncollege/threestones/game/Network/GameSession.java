@@ -2,9 +2,11 @@ package ca.qc.dawsoncollege.threestones.game.Network;
 
 
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Board;
+import ca.qc.dawsoncollege.threestones.game.GamePieces.ImmutableBoard;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Score;
 import ca.qc.dawsoncollege.threestones.game.GamePieces.TileState;
+import ca.qc.dawsoncollege.threestones.game.Player.AIPlayer;
 import ca.qc.dawsoncollege.threestones.game.Player.Player;
 import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 import org.slf4j.Logger;
@@ -38,14 +40,16 @@ public class GameSession{
     public void run() throws IOException {
         LOG.info("Game session created");
         board = new Board();
+        
+        p2 = new AIPlayer(TileState.BLACK, new ImmutableBoard(board));
         try {
-            p2 = new RandomPlayer(TileState.BLACK);
             do {
                 byte[] data = connection.receiveData();
                 if (data[0] == PacketInfo.QUIT) {
                     LOG.info("Quitting game...");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
+                    serverMove();
                     p2.setNumRemainingPieces(0);
                 } else if(data[0] == PacketInfo.NEW_GAME){
                     run();

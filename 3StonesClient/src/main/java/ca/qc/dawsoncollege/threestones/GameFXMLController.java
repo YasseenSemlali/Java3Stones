@@ -53,7 +53,8 @@ public class GameFXMLController {
         // TODO
         addEventGrid();
         board = new Board();
-        p1 = new RandomPlayer(TileState.WHITE);
+        // TODO Replace with better solution later
+        p1 = new RandomPlayer(TileState.WHITE, null);
     }
     /***
      * Method that add events to all cells withing grid
@@ -96,7 +97,8 @@ public class GameFXMLController {
         addEventGrid();
         lastMove= null;
         board = new Board();
-        p1 = new RandomPlayer(TileState.WHITE);
+        // TODO Replace with better solution later
+        p1 = new RandomPlayer(TileState.WHITE, null);
         connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
     }
     

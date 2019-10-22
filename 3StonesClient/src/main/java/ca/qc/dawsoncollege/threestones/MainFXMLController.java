@@ -4,28 +4,22 @@
 
 package ca.qc.dawsoncollege.threestones;
 
-import ca.qc.dawsoncollege.threestones.game.GameController;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.LoggerFactory;
 
 public class MainFXMLController {
 
-    private final static org.slf4j.Logger LOG =  LoggerFactory.getLogger(Main.class);
+    private final static org.slf4j.Logger LOG =  LoggerFactory.getLogger(MainFXMLController.class);
 
     @FXML // fx:id="closeBut"
     private Button closeBut; // Value injected by FXMLLoader
