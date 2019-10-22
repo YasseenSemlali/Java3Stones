@@ -1,24 +1,28 @@
 package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
 import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
-import ca.qc.dawsoncollege.threestones.game.Player.Player;
-import ca.qc.dawsoncollege.threestones.game.Player.RandomPlayer;
 
-public class Board {
+public class Board implements Cloneable
+{
     public static final int HEIGHT = 11;
     public static final int WIDTH = 11;
 
     public static final int NUM_PIECES = 15;
     public static final int STONES_FOR_POINT = 3;
-
-    Player p2 = new RandomPlayer(TileState.BLACK);
-    int lastPlayedX = -1;
-    int lastPlayedY = -1;
+    private int lastPlayedX = -1;
+    private int lastPlayedY = -1;
     private Tile[][] grid;
-
+    
     public Board() {
         this.grid = new Tile[WIDTH][HEIGHT];
         this.populateGrid();
+    }
+    
+    private Board(Tile[][] grid, int lastPlayedX, int lastPlayedY) {
+        this.grid = grid;
+        
+        this.lastPlayedX = lastPlayedX;
+        this.lastPlayedY = lastPlayedY;
     }
 
     public static void main(String[] args) {
@@ -64,7 +68,7 @@ public class Board {
             int points = 0;
 
             // Get horizontal
-            for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT; x++) {
+            for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = 0; y < HEIGHT; y++) {
                     if (this.get(x, y).getState() == state &&
                             this.get(x + 1, y).getState() == state &&
@@ -76,7 +80,7 @@ public class Board {
 
             // Get vertical
             for (int x = 0; x < WIDTH; x++) {
-                for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT; y++) {
+                for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
                     if (this.get(x, y).getState() == state &&
                             this.get(x, y + 1).getState() == state &&
                             this.get(x, y + 2).getState() == state) {
@@ -86,22 +90,22 @@ public class Board {
             }
 
             // Get diagonal right
-            for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT; x++) {
-                for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT; y++) {
+            for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
+                for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
                     if (this.get(x, y).getState() == state &&
-                            this.get(x + 1, y + 2).getState() == state &&
-                            this.get(x + 1, y + 2).getState() == state) {
+                            this.get(x + 1, y + 1).getState() == state &&
+                            this.get(x + 2, y + 2).getState() == state) {
                         points++;
                     }
                 }
             }
 
             // Get diagonal left
-            for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT; x++) {
-                for (int y = HEIGHT - Board.STONES_FOR_POINT - 1; y >= 0; y--) {
+            for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
+                for (int y = Board.STONES_FOR_POINT - 1; y < HEIGHT; y++){
                     if (this.get(x, y).getState() == state &&
-                            this.get(x + 1, y + 2).getState() == state &&
-                            this.get(x + 1, y + 2).getState() == state) {
+                            this.get(x + 1, y - 1).getState() == state &&
+                            this.get(x + 2, y - 2).getState() == state) {
                         points++;
                     }
                 }
@@ -162,5 +166,21 @@ public class Board {
         }
         System.out.println(move);
         play(move);
+    }
+
+    private Tile[][] getGridClone() {
+        Tile[][] grid = new Tile[WIDTH][HEIGHT];
+        
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[i].length; j++) {
+                 grid[i][j] = this.grid[i][j].clone();
+            }
+        }
+        
+        return grid;
+    }
+    
+    public Board clone() {
+        return new Board(getGridClone(), lastPlayedX, lastPlayedY);
     }
 }

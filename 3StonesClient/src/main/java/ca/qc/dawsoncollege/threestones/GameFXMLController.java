@@ -34,9 +34,9 @@ public class GameFXMLController {
     
     Board board;
     
-    Player p1;
-    
     Node lastMove;
+    
+    int numPieces;
     
     ThreeStonesConnector connection;
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -53,7 +53,7 @@ public class GameFXMLController {
         // TODO
         addEventGrid();
         board = new Board();
-        p1 = new RandomPlayer(TileState.WHITE);
+        numPieces = 15;
     }
     /***
      * Method that add events to all cells withing grid
@@ -65,6 +65,7 @@ public class GameFXMLController {
         for(Node node : children){
             node.setId("circle");
             if(node instanceof Circle){
+                node.setOnMouseClicked(null);
                 node.setOnMouseClicked(e -> {try {
                     clientMove(e);
                     } catch (IOException ex) {
@@ -93,10 +94,11 @@ public class GameFXMLController {
      * @author Jean Naima
      */
     public void startGame() throws IOException {
-        addEventGrid();
         lastMove= null;
+        numPieces = 15;
         board = new Board();
         connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
+        addEventGrid();
     }
     
     
@@ -135,7 +137,7 @@ public class GameFXMLController {
                 System.out.println("quiting");
                 board.addMove(data[2], data[3], data[1]);
                 movePlayedServer(data[2],data[3]);
-                p1.setNumRemainingPieces(0);
+                numPieces = 0;
                 break;
             default:
                 LOG.info("No Data Received From Server");
@@ -197,12 +199,13 @@ public class GameFXMLController {
     private void clientMove(MouseEvent e) throws IOException{
         Node node = (Node) e.getSource();
         Move move = new Move(gridPane.getRowIndex(node).byteValue(),gridPane.getColumnIndex(node).byteValue());        
-        if(board.checkIfValidMove(move) && p1.hasRemainingPieces()){ 
+        if(board.checkIfValidMove(move) && numPieces != 0){ 
+            LOG.info(move.getX()+ "      ::::      "+ move.getY());
             board.play(move);
             movePlayedClient(move.getX(),move.getY());
             node.setOnMouseClicked(null);
-            p1.usePiece();
-            if (!p1.hasRemainingPieces()) {
+            numPieces--;
+            if (numPieces == 0) {
                 connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
             } else {
                 connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());

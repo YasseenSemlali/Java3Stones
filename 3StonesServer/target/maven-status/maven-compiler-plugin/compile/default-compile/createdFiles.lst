@@ -15,3 +15,4 @@ ca\qc\dawsoncollege\threestones\game\GamePieces\TileState$1.class
 ca\qc\dawsoncollege\threestones\game\Player\NetworkPlayer.class
 ca\qc\dawsoncollege\threestones\Controller.class
 ca\qc\dawsoncollege\threestones\game\Network\GameSession.class
+ca\qc\dawsoncollege\threestones\game\GamePieces\ImmutableBoard.class
