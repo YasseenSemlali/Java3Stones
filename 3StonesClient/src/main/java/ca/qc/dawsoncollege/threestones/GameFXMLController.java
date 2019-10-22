@@ -64,13 +64,15 @@ public class GameFXMLController {
         LOG.info("Events added to grid");
         for(Node node : children){
             node.setId("circle");
-            node.setOnMouseClicked(e -> {try {
-                clientMove(e);
-                } catch (IOException ex) {
-                    LOG.info("AAAAAA  " + ex.getMessage());
-                }
-            });
-        }     
+            if(node instanceof Circle){
+                node.setOnMouseClicked(e -> {try {
+                    clientMove(e);
+                    } catch (IOException ex) {
+                        LOG.info("AAAAAA  " + ex.getMessage());
+                    }
+                });
+            } 
+        }
     }
     
     /**
