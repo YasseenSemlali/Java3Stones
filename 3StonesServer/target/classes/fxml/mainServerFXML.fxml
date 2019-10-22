@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<GridPane alignment="center" hgap="10" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/serverStyles.css" vgap="10" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.qc.dawsoncollege.threestones.Controller">
+    <children>
+      <AnchorPane id="backGround" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Text id="title" layoutX="179.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connection info" wrappingWidth="241.05728149414062">
+            </Text>
+            <Button id="portIpBut" fx:id="closeButton" layoutX="323.0" layoutY="295.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="43.0" prefWidth="193.0" text="Exit">
+            </Button>
+            <Text id="portIpBut" fx:id="portText" layoutX="117.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Port: 50000">
+            </Text>
+            <Text id="portIpBut" fx:id="ipText" layoutX="117.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IP Address: ">
+            </Text>
+            <Button id="portIpBut" fx:id="connectBut" layoutX="98.0" layoutY="295.0" mnemonicParsing="false" onAction="#onConnect" prefHeight="43.0" prefWidth="193.0" text="Connect" />
+         </children></AnchorPane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>

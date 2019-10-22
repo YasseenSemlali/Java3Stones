@@ -10,8 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="desktop_project_dependencies" target="12" />
-      <module name="threestones" target="1.8" />
+      <module name="threestones_project_dependencies" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
