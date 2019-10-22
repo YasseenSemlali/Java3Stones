@@ -94,6 +94,7 @@ public class Controller {
                     LOG.info("Player found");
                     GameSession gs = new GameSession(player1);
                     gs.run();
+                    LOG.info("Game ended, searching for new player");
                 }
             }
         } catch (IOException e) {

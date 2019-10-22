@@ -36,6 +36,7 @@ public class GameSession{
     }
 
     public void run() throws IOException {
+        boolean notClosed = true;
         LOG.info("Game session created");
         board = new Board();
         try {
@@ -47,8 +48,11 @@ public class GameSession{
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
                     System.out.println(board);
                     p2.setNumRemainingPieces(0);
-                } else if(data[0] == PacketInfo.NEW_GAME){
-                    run();
+                }else if (data[0] == 0 ){
+                    LOG.info("closeSocket");
+                    connection.closeSocket();
+                    notClosed = false;
+                    break;
                 }else{
                     LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
                     board.addMove(data[2], data[3], PacketInfo.PLAYER_ONE);
@@ -64,10 +68,11 @@ public class GameSession{
                    run();
                }
                else{
+                   LOG.info("Socket Closed");
                    connection.closeSocket();
                }
            } 
-           while(true);
+           while(notClosed);
         } catch (IOException e) {
             LOG.error(e.getMessage());
         }
