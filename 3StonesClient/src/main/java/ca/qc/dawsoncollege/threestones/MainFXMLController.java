@@ -73,10 +73,10 @@ public class MainFXMLController {
             LOG.info("Making Connection");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/GameFXML.fxml"));
             loader.load();
-            LOG.info("Part1");
             Pattern ipPattern = Pattern.compile("^([0-9]{1,3}\\.){3}[0-9]{1,3}$");
             Pattern portPattern = Pattern.compile("^[0-9]{1,5}$"); //
             if(!ipPattern.matcher(ipInput.getText()).matches() || !portPattern.matcher(portInput.getText()).matches()){
+                errorText.setText("Invalid Input!");
                 throw new NumberFormatException("Invalid input format"); 
             }
             GameFXMLController gameController = loader.getController();
@@ -88,6 +88,7 @@ public class MainFXMLController {
             closeWindow();
             gameStage.show();
         } catch (IOException | NumberFormatException e) {
+            errorText.setText("Invalid Input!");
             LOG.error("ERROR LOADING PAGE: " + e);
         }
     }

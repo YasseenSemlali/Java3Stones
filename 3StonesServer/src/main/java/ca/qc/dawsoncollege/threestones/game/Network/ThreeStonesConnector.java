@@ -87,6 +87,9 @@ public class ThreeStonesConnector {
         int receivedBytes = 0;
         while (receivedBytes < 4) {
             receivedBytes = in.read(receivedData);
+            if (receivedBytes == -1 ){
+                return receivedData;
+            }
         }
         return receivedData;
     }

@@ -34,9 +34,9 @@ public class GameFXMLController {
     
     Board board;
     
-    Player p1;
-    
     Node lastMove;
+    
+    int numPieces;
     
     ThreeStonesConnector connection;
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -53,8 +53,7 @@ public class GameFXMLController {
         // TODO
         addEventGrid();
         board = new Board();
-        // TODO Replace with better solution later
-        p1 = new RandomPlayer(TileState.WHITE, null);
+        numPieces = 15;
     }
     /***
      * Method that add events to all cells withing grid
@@ -66,10 +65,12 @@ public class GameFXMLController {
         for(Node node : children){
             node.setId("circle");
             if(node instanceof Circle){
+                node.setOnMouseClicked(null);
                 node.setOnMouseClicked(e -> {try {
                     clientMove(e);
                     } catch (IOException ex) {
-                        LOG.info("AAAAAA  " + ex.getMessage());
+                        LOG.info("Connection with Server lost!");
+                        removeEvents();
                     }
                 });
             } 
@@ -94,12 +95,12 @@ public class GameFXMLController {
      * @author Jean Naima
      */
     public void startGame() throws IOException {
-        addEventGrid();
         lastMove= null;
+        numPieces = 15;
         board = new Board();
-        // TODO Replace with better solution later
-        p1 = new RandomPlayer(TileState.WHITE, null);
         connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
+        addEventGrid();
+        System.out.println(board);
     }
     
     
@@ -138,10 +139,11 @@ public class GameFXMLController {
                 System.out.println("quiting");
                 board.addMove(data[2], data[3], data[1]);
                 movePlayedServer(data[2],data[3]);
-                p1.setNumRemainingPieces(0);
+                numPieces = 0;
                 break;
             default:
                 LOG.info("No Data Received From Server");
+
         }
     }
     
@@ -191,6 +193,18 @@ public class GameFXMLController {
         }
     }
     /**
+     * Removes Events
+     * @author Jean
+     * 
+     */
+    private void removeEvents(){
+        LOG.info("Removing click events");
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for (Node node : childrens) {
+            node.setOnMouseClicked(null);
+        }   
+    }
+    /**
      * OnClick event handler of grid
      * handles Move made by client, makes sure it is valid
      * @param e mouseClick event
@@ -199,20 +213,18 @@ public class GameFXMLController {
      */
     private void clientMove(MouseEvent e) throws IOException{
         Node node = (Node) e.getSource();
-        Move move = new Move(gridPane.getRowIndex(node).byteValue(),gridPane.getColumnIndex(node).byteValue());
-        LOG.info("INFOOO ::      " + move.getX()+ "        " + move.getY());
-        
-        if(board.checkIfValidMove(move) && p1.hasRemainingPieces()){ 
+        Move move = new Move(gridPane.getRowIndex(node).byteValue(),gridPane.getColumnIndex(node).byteValue());        
+        if(board.checkIfValidMove(move) && numPieces != 0){ 
+            LOG.info(move.getX()+ "      ::::      "+ move.getY());
             board.play(move);
             movePlayedClient(move.getX(),move.getY());
             node.setOnMouseClicked(null);
-            p1.usePiece();
-            if (!p1.hasRemainingPieces()) {
+            numPieces--;
+            if (numPieces == 0) {
                 connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
-                LOG.info("AAA MOVES");
+                processReceivedData();
             } else {
                 connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
-                LOG.info("HOMIE MOVES");
                 processReceivedData();
             }
         }
