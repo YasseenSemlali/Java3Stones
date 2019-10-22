@@ -70,6 +70,11 @@ public class Board implements Cloneable
             // Get horizontal
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = 0; y < HEIGHT; y++) {
+                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
+                            (x+1 == WIDTH/2 && y == HEIGHT/2) ||
+                            (x+2 == WIDTH/2 && y == HEIGHT/2)){
+                        continue;
+                    }
                     if (this.get(x, y).getState() == state &&
                             this.get(x + 1, y).getState() == state &&
                             this.get(x + 2, y).getState() == state) {
@@ -81,6 +86,12 @@ public class Board implements Cloneable
             // Get vertical
             for (int x = 0; x < WIDTH; x++) {
                 for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
+                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
+                            (x == WIDTH/2 && y+1 == HEIGHT/2) ||
+                            (x == WIDTH/2 && y+2 == HEIGHT/2)){
+                        continue;
+                    }
+                    
                     if (this.get(x, y).getState() == state &&
                             this.get(x, y + 1).getState() == state &&
                             this.get(x, y + 2).getState() == state) {
@@ -92,6 +103,12 @@ public class Board implements Cloneable
             // Get diagonal right
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
+                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
+                            (x+1 == WIDTH/2 && y+1 == HEIGHT/2) ||
+                            (x+2 == WIDTH/2 && y+2 == HEIGHT/2)){
+                        continue;
+                    }
+                    
                     if (this.get(x, y).getState() == state &&
                             this.get(x + 1, y + 1).getState() == state &&
                             this.get(x + 2, y + 2).getState() == state) {
@@ -103,6 +120,12 @@ public class Board implements Cloneable
             // Get diagonal left
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = Board.STONES_FOR_POINT - 1; y < HEIGHT; y++){
+                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
+                            (x+1 == WIDTH/2 && y-1 == HEIGHT/2) ||
+                            (x+2 == WIDTH/2 && y-2 == HEIGHT/2)){
+                        continue;
+                    }
+                    
                     if (this.get(x, y).getState() == state &&
                             this.get(x + 1, y - 1).getState() == state &&
                             this.get(x + 2, y - 2).getState() == state) {
@@ -148,12 +171,14 @@ public class Board implements Cloneable
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        String prefix = "";
         for (int j = HEIGHT - 1; j >= 0; j--) {
             for (int i = 0; i < WIDTH; i++) {
                 sb.append(this.get(i, j));
             }
             sb.append("\n");
         }
+        sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 

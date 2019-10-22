@@ -17,7 +17,10 @@ public class AIPlayer extends Player {
    private final TileState tileColor;
    private final ImmutableBoard board;
    
+   private static final double POINT_GAINED_WEIGHT = 1.1;
    private static final double BLOCKED_WEIGHT = 0.6;
+   private static final double SELF_ADJACENT_WEIGHT = 0.16;
+   private static final double ENEMY_ADJACENT_WEIGHT = 0.05;
 
     public AIPlayer(TileState state, ImmutableBoard board) {
         if (!state.isPlayable()) {
@@ -60,7 +63,11 @@ public class AIPlayer extends Player {
                     int blackIncrease = blackScore.getScore(TileState.BLACK) - currentScore.getScore(TileState.BLACK);
                     int whiteBlocked =  whiteScore.getScore(TileState.WHITE) - currentScore.getScore(TileState.WHITE);
                     
-                    double weightedScore = blackIncrease + whiteBlocked * BLOCKED_WEIGHT;
+                    int adjacentSelfPieces = this.board.getNumAdjacent(x, y, TileState.BLACK);
+                    int adjacentEnemyPieces = this.board.getNumAdjacent(x, y, TileState.WHITE);
+                    
+                    double weightedScore = blackIncrease * POINT_GAINED_WEIGHT + whiteBlocked * BLOCKED_WEIGHT + 
+                            adjacentSelfPieces * SELF_ADJACENT_WEIGHT + adjacentEnemyPieces * ENEMY_ADJACENT_WEIGHT;
                     
                     //System.out.println(this.board);
                     //System.out.println(boardBlack);
