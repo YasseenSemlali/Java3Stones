@@ -81,9 +81,9 @@ public class ThreeStonesConnector {
      * @throws IOException
      */
     public byte[] receiveData() throws IOException {
-        byte[] receivedData = new byte[4];
+        byte[] receivedData = new byte[6];
         int receivedBytes = 0;
-        while (receivedBytes < 4) {
+        while (receivedBytes < 6) {
             receivedBytes = in.read(receivedData);
         }
         return receivedData;

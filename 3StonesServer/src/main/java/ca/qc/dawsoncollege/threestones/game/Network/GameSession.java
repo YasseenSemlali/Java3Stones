@@ -79,7 +79,7 @@ public class GameSession {
             byte[] data = connection.getReceivedData();
             if (data[0] == PacketInfo.NEW_GAME) {
                 run();
-            } else {
+            } else if (data[0] == 0){
                 notClosed = false;
                 LOG.info("Socket Closed");
                 connection.closeSocket();
@@ -127,21 +127,29 @@ public class GameSession {
         byte second;
         byte third;
         byte fourth;
-
+        byte fifth;
+        byte sixth;
+        Score current = board.calculateScore();
+        
         if (!p2.hasRemainingPieces()) {
             LOG.info("No more pieces.");
             first = PacketInfo.QUIT;
             second = PacketInfo.PLAYER_TWO;
             third = (byte) move.getX();
             fourth = (byte) move.getY();
+            fifth = (byte) current.getScore(TileState.WHITE);
+            sixth = (byte) current.getScore(TileState.BLACK);
+            
         } else {
             first = PacketInfo.MOVE;
             second = PacketInfo.PLAYER_TWO;
             third = (byte) move.getX();
             fourth = (byte) move.getY();
+            fifth = (byte) current.getScore(TileState.WHITE);
+            sixth = (byte) current.getScore(TileState.BLACK);
         }
         //LOG.info("Computer is returning his move to client at line: " + decision);
-        connection.sendData(first, second, third, fourth);
+        connection.sendData(first, second, third, fourth, fifth, sixth);
     }
 
     private void serverMove() throws IOException {
@@ -149,6 +157,9 @@ public class GameSession {
         byte second;
         byte third;
         byte fourth;
+        byte fifth;
+        byte sixth;
+        Score current = board.calculateScore();
 
         Move decision = computerMove();
         board.play(decision);
@@ -162,14 +173,18 @@ public class GameSession {
             second = PacketInfo.PLAYER_TWO;
             third = (byte) decision.getX();
             fourth = (byte) decision.getY();
+            fifth = (byte) current.getScore(TileState.WHITE);
+            sixth = (byte) current.getScore(TileState.BLACK);
         } else {
             first = PacketInfo.MOVE;
             second = PacketInfo.PLAYER_TWO;
             third = (byte) decision.getX();
             fourth = (byte) decision.getY();
+            fifth = (byte) current.getScore(TileState.WHITE);
+            sixth = (byte) current.getScore(TileState.BLACK);
         }
         //LOG.info("Computer is returning his move to client at line: " + decision);
-        connection.sendData(first, second, third, fourth);
+        connection.sendData(first, second, third, fourth, fifth, sixth);
     }
 
     public Move computerMove() {
