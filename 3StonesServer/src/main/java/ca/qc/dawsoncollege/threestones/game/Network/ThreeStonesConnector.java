@@ -72,8 +72,8 @@ public class ThreeStonesConnector {
      * @author Saad
      * @throws java.io.IOException
      */
-    public void sendData(byte first, byte secound, byte third, byte fourth) throws IOException {
-        byte[] messages = {first, secound, third, fourth};
+    public void sendData(byte first, byte secound, byte third, byte fourth, byte fifth, byte sixth) throws IOException {
+        byte[] messages = {first, secound, third, fourth, fifth, sixth};
         out.write(messages);
     }
 
@@ -92,6 +92,7 @@ public class ThreeStonesConnector {
             if (receivedBytes == -1 ){
                 this.cachedData = receivedData;
                 //return receivedData;
+                break;
             }
         }
         

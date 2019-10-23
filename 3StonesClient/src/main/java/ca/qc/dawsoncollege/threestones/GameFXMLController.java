@@ -25,6 +25,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,8 @@ public class GameFXMLController {
     
     int numPieces;
     
+    private boolean isClosed = false;
+    
     ThreeStonesConnector connection;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -47,6 +51,21 @@ public class GameFXMLController {
 
     @FXML // fx:id="gridPane"
     private GridPane gridPane; // Value injected by FXMLLoader
+    
+    @FXML
+    private Text infoText;
+    
+    @FXML 
+    private Text clientScore;
+    
+    @FXML
+    private Text serverScore;
+    
+    @FXML
+    private Text winner;
+    
+    @FXML
+    private Text piecesRemaining;
         
     @FXML // This method is called by the FXMLLoader when initialization is complete
     public void initialize() throws IOException {
@@ -71,6 +90,7 @@ public class GameFXMLController {
                     } catch (IOException ex) {
                         LOG.info("Connection with Server lost!");
                         removeEvents();
+                        infoText.setText("Connection with Server lost!");
                     }
                 });
             } 
@@ -95,27 +115,34 @@ public class GameFXMLController {
      * @author Jean Naima
      */
     public void startGame() throws IOException {
-        lastMove= null;
-        numPieces = 15;
-        board = new Board();
-        connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
-        addEventGrid();
-        System.out.println(board);
+        if(!isClosed){
+            lastMove= null;      
+            numPieces = 15;
+            board = new Board();
+            connection.sendData(PacketInfo.NEW_GAME, PacketInfo.PLAYER_ONE, (byte) 1,(byte) 1);
+            addEventGrid();
+            infoText.setText("");
+            winner.setText("");
+            clientScore.setText("You: 0");
+            serverScore.setText("Opponent: 0");
+            piecesRemaining.setText("Pieces Remaining: 15");
+            LOG.info("New Game Started");
+        }
     }
     
     
     /**
      * Checks winner based on current score
      * @param current 
+     * @author Jean Naima
      */
-    private void checkWinner(Score current) {
-        System.out.println(current);
-        if (current.getScore(TileState.WHITE) == current.getScore(TileState.BLACK)) {
-            System.out.println("Tie Game");
-        } else if (current.getScore(TileState.WHITE) > current.getScore(TileState.BLACK)) {
-            System.out.println("Winner White");
+    private void checkWinner(byte client, byte server) {
+        if (client == server) {
+            winner.setText("You tied !");
+        } else if (client > server) {
+            winner.setText("You Won !");
         } else {
-            System.out.println("Winner Black");
+            winner.setText("You Lost !");
         }
     }
 
@@ -134,9 +161,15 @@ public class GameFXMLController {
             case PacketInfo.MOVE:
                 board.addMove(data[2], data[3], data[1]);
                 movePlayedServer(data[2],data[3]);
+                clientScore.setText("You: " + data[4]);
+                serverScore.setText("Opponent: " + data[5]);
                 break;
             case PacketInfo.QUIT:
-                System.out.println("quiting");
+                LOG.info("Last move");
+                infoText.setText("Game Over!");
+                clientScore.setText("You: " + data[4]);
+                serverScore.setText("Opponent: " + data[5]);
+                checkWinner(data[4],data[5]);
                 board.addMove(data[2], data[3], data[1]);
                 movePlayedServer(data[2],data[3]);
                 numPieces = 0;
@@ -193,11 +226,12 @@ public class GameFXMLController {
         }
     }
     /**
-     * Removes Events
+     * Removes Events 
      * @author Jean
      * 
      */
     private void removeEvents(){
+        isClosed = true;
         LOG.info("Removing click events");
         ObservableList<Node> childrens = gridPane.getChildren();
         for (Node node : childrens) {
@@ -219,7 +253,7 @@ public class GameFXMLController {
             board.play(move);
             movePlayedClient(move.getX(),move.getY());
             node.setOnMouseClicked(null);
-            numPieces--;
+            setPiecesRemaining();
             if (numPieces == 0) {
                 connection.sendData(PacketInfo.QUIT, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
                 processReceivedData();
@@ -227,8 +261,26 @@ public class GameFXMLController {
                 connection.sendData(PacketInfo.MOVE, PacketInfo.PLAYER_ONE, (byte) move.getX(), (byte) move.getY());
                 processReceivedData();
             }
-        }
-        
+        }      
+    }
+    /**
+     * exit button event handler
+     * closes socket and app
+     * @author Jean Naima
+     */
+    @FXML
+    private void closeWindow() throws IOException{
+        connection.closeSocket();
+        Stage stage = (Stage) gridPane.getScene().getWindow();
+        stage.close();
+    }
+    /**
+     * Handles pieces remaining for client Player
+     * @author Jean Naima
+     */
+    private void setPiecesRemaining(){
+        numPieces--;
+        piecesRemaining.setText("Pieces Remaining: " + numPieces);
     }
 }
     

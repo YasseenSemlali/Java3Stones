@@ -7,6 +7,13 @@ and open the template in the editor.
     Created on : Oct. 12, 2019, 6:42:04 p.m.
     Author     : Jean
 */
+#board{
+    /*-fx-background-image: url('../images/board.jpg');*/
+    -fx-background-size: stretch;
+    -fx-border-image-repeat: no-repeat;
+    -fx-stroke: antiquewhite;
+}
+
 .root{
     -fx-background-image: url('../images/clientBackground.jpg');
     -fx-background-size: cover;
