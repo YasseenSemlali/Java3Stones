@@ -87,6 +87,7 @@ public class MainFXMLController {
             gameStage.setScene(new Scene(root));
             closeWindow();
             gameStage.show();
+            root.requestFocus();
         } catch (IOException | NumberFormatException e) {
             errorText.setText("Invalid Input!");
             LOG.error("ERROR LOADING PAGE: " + e);

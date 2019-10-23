@@ -21,17 +21,17 @@ and open the template in the editor.
 #portIpBut{
     -fx-font-size: 19;
     -fx-font-family: "Segoe UI Semibold";
-	-fx-fill: white;
+    -fx-fill: white;
 }
 #title{
     -fx-font-size: 30;
     -fx-font-family: "Segoe UI Black";
-	-fx-fill: white;
+    -fx-fill: white;
 }
 #err{
-	-fx-font-size: 15;
+    -fx-font-size: 15;
     -fx-font-family: "Segoe UI Semibold";
-	-fx-fill: red;
+    -fx-fill: red;
 }
 #circle{
 	-fx-fill: transparent;

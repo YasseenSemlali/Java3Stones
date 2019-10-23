@@ -169,10 +169,10 @@
             <Circle fill="DODGERBLUE" radius="15.0" rotate="180.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="10" GridPane.rowIndex="10" />
          </children>
       </GridPane>
-      <Button id="portIpBut" layoutX="26.0" layoutY="516.0" mnemonicParsing="false" onAction="#startGame" prefHeight="42.0" prefWidth="179.0" text="Start New Game" />
       <Text id="portIpBut" fx:id="infoText" layoutX="-6.0" layoutY="545.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="910.8751220703125" />
       <Text id="portIpBut" fx:id="clientScore" layoutX="26.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You: 0" wrappingWidth="143.33333965142566" />
       <Text id="portIpBut" fx:id="serverScore" layoutX="26.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Opponent: 0" wrappingWidth="143.33333965142566" />
+      <Button id="portIpBut" layoutX="26.0" layoutY="516.0" mnemonicParsing="false" onAction="#startGame" prefHeight="42.0" prefWidth="179.0" text="Start New Game" />
       <Button id="portIpBut" layoutX="703.0" layoutY="516.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="42.0" prefWidth="179.0" text="Exit" />
       <Text id="portIpBut" fx:id="winner" layoutX="26.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <Text id="portIpBut" fx:id="piecesRemaining" layoutX="22.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pieces Remaining: 15" />
