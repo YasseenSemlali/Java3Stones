@@ -21,6 +21,7 @@ public class AIPlayer extends Player {
    private static final double BLOCKED_WEIGHT = 0.6;
    private static final double SELF_ADJACENT_WEIGHT = 0.16;
    private static final double ENEMY_ADJACENT_WEIGHT = 0.05;
+   private static final double IN_CENTER_MULTIPLIER = 0.8;
 
     public AIPlayer(TileState state, ImmutableBoard board) {
         if (!state.isPlayable()) {
@@ -33,7 +34,7 @@ public class AIPlayer extends Player {
         this.numRemainingPieces = Board.NUM_PIECES;
         this.tileColor = state;
     }
-
+    
     public Move getMove() {
         Move m;
         Random rand = new Random();
@@ -46,7 +47,7 @@ public class AIPlayer extends Player {
                     Board boardBlack = this.board.getBoardCopy();
                     Board boardWhite = this.board.getBoardCopy();
                     
-                    Move blackMove = new Move(x,y,TileState.BLACK);                    
+                    Move blackMove = new Move(x,y,this.tileColor);                    
                     if(!this.board.checkIfValidMove(blackMove)) {
                         continue;
                     }
@@ -60,22 +61,18 @@ public class AIPlayer extends Player {
                     Score blackScore = boardBlack.calculateScore();
                     Score whiteScore = boardWhite.calculateScore();
                     
-                    int blackIncrease = blackScore.getScore(TileState.BLACK) - currentScore.getScore(TileState.BLACK);
+                    int blackIncrease = blackScore.getScore(this.tileColor) - currentScore.getScore(this.tileColor);
                     int whiteBlocked =  whiteScore.getScore(TileState.WHITE) - currentScore.getScore(TileState.WHITE);
                     
-                    int adjacentSelfPieces = this.board.getNumAdjacent(x, y, TileState.BLACK);
+                    int adjacentSelfPieces = this.board.getNumAdjacent(x, y, this.tileColor);
                     int adjacentEnemyPieces = this.board.getNumAdjacent(x, y, TileState.WHITE);
                     
                     double weightedScore = blackIncrease * POINT_GAINED_WEIGHT + whiteBlocked * BLOCKED_WEIGHT + 
                             adjacentSelfPieces * SELF_ADJACENT_WEIGHT + adjacentEnemyPieces * ENEMY_ADJACENT_WEIGHT;
                     
-                    //System.out.println(this.board);
-                    //System.out.println(boardBlack);
-                    //System.out.println("Current: " + this.board.calculateScore());
-                    //System.out.println("Black: " + boardBlack.calculateScore());
-                    //System.out.println("White: " + whiteScore);
-                    //System.out.println("Black increase: " + blackIncrease);
-                    //System.out.println("White increase: " + whiteBlocked);
+                    if(x == Board.WIDTH /2  && y == Board.HEIGHT /2 ) {
+                        weightedScore *= IN_CENTER_MULTIPLIER;
+                    }
                     
                     if(weightedScore > bestScore) {
                         moves.clear();
