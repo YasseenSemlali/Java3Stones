@@ -54,3 +54,4 @@ local.properties
 .scala_dependencies
 .worksheet
 
+/3StonesClient/target/

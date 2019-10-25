@@ -1,0 +1,53 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Oct. 12, 2019, 6:42:04 p.m.
+    Author     : Jean
+*/
+#board{
+    /*-fx-background-image: url('../images/board.jpg');*/
+    -fx-background-size: stretch;
+    -fx-border-image-repeat: no-repeat;
+    -fx-stroke: antiquewhite;
+}
+
+.root{
+    -fx-background-image: url('../images/clientBackground.jpg');
+    -fx-background-size: cover;
+}
+#portIpBut{
+    -fx-font-size: 19;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-fill: white;
+}
+#title{
+    -fx-font-size: 30;
+    -fx-font-family: "Segoe UI Black";
+    -fx-fill: white;
+}
+#err{
+    -fx-font-size: 15;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-fill: red;
+}
+#circle{
+	-fx-fill: transparent;
+	-fx-stroke: transparent;
+}
+#clickedW{
+	-fx-fill: white;
+}
+#clickedB{
+	-fx-fill: black;
+}
+#lastClickedW{
+        -fx-fill: white;
+        -fx-stroke: red;
+}
+#lastClickedB{
+        -fx-fill: black;
+        -fx-stroke: red;
+}
