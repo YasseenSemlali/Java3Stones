@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class to instantiate Ai player
+ *
+ * @author Yasseen
+ */
 public class AIPlayer extends Player {
 
     private static final double POINT_GAINED_WEIGHT = 1.1;
@@ -16,6 +21,12 @@ public class AIPlayer extends Player {
     private final TileState tileColor;
     private final ImmutableBoard board;
 
+    /**
+     * creates an instance of AI player
+     *
+     * @param state the colour the player will be
+     * @param board the board state
+     */
     public AIPlayer(TileState state, ImmutableBoard board) {
         if (state.isPlayable()) {
             throw new IllegalArgumentException("Invalid tile state");
@@ -28,6 +39,9 @@ public class AIPlayer extends Player {
         this.tileColor = state;
     }
 
+    /**
+     * @return calculate best possible move to play
+     */
     public Move getMove() {
         Move m;
         Random rand = new Random();
