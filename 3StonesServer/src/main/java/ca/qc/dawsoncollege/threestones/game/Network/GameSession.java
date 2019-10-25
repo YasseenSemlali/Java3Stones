@@ -14,6 +14,7 @@ import java.net.Socket;
  * class that handles the game logic
  *
  * @author Saad
+ * @author Yasseen
  */
 public class GameSession {
 
@@ -81,6 +82,12 @@ public class GameSession {
         }
     }
 
+    /**
+     * play computer move on board
+     *
+     * @param data move computer is playing
+     * @throws IOException
+     */
     private void playTurn(byte[] data) throws IOException {
         LOG.info("Adding move at line " + data[2] + "," + data[3] + " for player.");
 
@@ -95,6 +102,11 @@ public class GameSession {
         this.sendClientMoveInfo(p2Move);
     }
 
+    /**
+     * check winner based on score
+     *
+     * @param current current boards score
+     */
     private void checkWinner(Score current) {
         if (current.getScore(TileState.WHITE) == current.getScore(TileState.BLACK)) {
             LOG.info("Tie Game");

@@ -13,6 +13,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+/**
+ * Class that handles the Main FXML file
+ *
+ * @author Jean
+ */
 public class MainFXMLController {
 
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(MainFXMLController.class);
@@ -40,7 +45,7 @@ public class MainFXMLController {
     }
 
     /**
-     * Makes sure the provided ip and port match the patern
+     * Makes sure the provided ip and port match the pattern
      * starts game if the connection is established
      *
      * @author Jean

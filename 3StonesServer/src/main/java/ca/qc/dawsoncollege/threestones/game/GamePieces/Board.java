@@ -1,5 +1,12 @@
 package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
+/**
+ * Board Object
+ *
+ * @author Saad
+ * @author Yasseen
+ * @author Jean
+ */
 public class Board implements Cloneable {
     public static final int HEIGHT = 11;
     public static final int WIDTH = 11;
@@ -10,11 +17,21 @@ public class Board implements Cloneable {
     private int lastPlayedY = -1;
     private Tile[][] grid;
 
+    /**
+     * create new board object
+     */
     public Board() {
         this.grid = new Tile[WIDTH][HEIGHT];
         this.populateGrid();
     }
 
+    /**
+     * create copy of board
+     *
+     * @param grid        tiles and positions of pieces
+     * @param lastPlayedX last played x
+     * @param lastPlayedY last played y
+     */
     private Board(Tile[][] grid, int lastPlayedX, int lastPlayedY) {
         this.grid = grid;
 
@@ -22,11 +39,9 @@ public class Board implements Cloneable {
         this.lastPlayedY = lastPlayedY;
     }
 
-    public static void main(String[] args) {
-        Board b = new Board();
-        System.out.println(b + "\n");
-    }
-
+    /**
+     * populate grid with empty values
+     */
     private void populateGrid() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -35,10 +50,22 @@ public class Board implements Cloneable {
         }
     }
 
+    /**
+     * get tile on grid
+     *
+     * @param x x coordinate on grid
+     * @param y y coordinate on grid
+     * @return Tile atx y position
+     */
     public Tile get(int x, int y) {
         return this.grid[x][y];
     }
 
+    /**
+     * play a move on the board
+     *
+     * @param move the move that either player or computer has made
+     */
     public void play(Move move) {
         int x = move.getX();
         int y = move.getY();
@@ -53,12 +80,23 @@ public class Board implements Cloneable {
         this.lastPlayedY = y;
     }
 
+    /**
+     * check if move that was made is even valid
+     *
+     * @param move move by AI or Player
+     * @return
+     */
     public boolean checkIfValidMove(Move move) {
         int x = move.getX();
         int y = move.getY();
         return !this.get(x, y).isEmpty() || x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT || !this.validateLastPlayed(x, y);
     }
 
+    /**
+     * calculate score of all pieces on the board
+     *
+     * @return Score of all pieces
+     */
     public Score calculateScore() {
         Score score = new Score();
         for (TileState state : TileState.getPlayablePieces()) {
@@ -137,6 +175,13 @@ public class Board implements Cloneable {
         return score;
     }
 
+    /**
+     * validate move that was last played
+     *
+     * @param x previous x coordinate
+     * @param y previous y coordinate
+     * @return whether or not last move was valid
+     */
     private boolean validateLastPlayed(int x, int y) {
         if (this.lastPlayedX == -1 && this.lastPlayedY == -1)
             return true;
@@ -148,6 +193,12 @@ public class Board implements Cloneable {
         return true;
     }
 
+    /**
+     * check if col is free
+     *
+     * @param x which col
+     * @return whether it is free
+     */
     private boolean colFree(int x) {
         for (int y = 0; y < WIDTH; y++) {
             if (this.get(x, y).isEmpty()) {
@@ -157,6 +208,12 @@ public class Board implements Cloneable {
         return false;
     }
 
+    /**
+     * check if row is free
+     *
+     * @param y which row
+     * @return whether it is free
+     */
     private boolean rowFree(int y) {
         for (int x = 0; x < HEIGHT; x++) {
             if (this.get(x, y).isEmpty()) {
@@ -166,6 +223,11 @@ public class Board implements Cloneable {
         return false;
     }
 
+    /**
+     * build string if board
+     *
+     * @return string representation of board
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String prefix = "";
@@ -179,6 +241,11 @@ public class Board implements Cloneable {
         return sb.toString();
     }
 
+    /**
+     * get a clone of the grid object
+     *
+     * @return tile array representing the grid
+     */
     private Tile[][] getGridClone() {
         Tile[][] grid = new Tile[WIDTH][HEIGHT];
 
@@ -191,6 +258,11 @@ public class Board implements Cloneable {
         return grid;
     }
 
+    /**
+     * create clone of grid
+     *
+     * @return new board freshly cloned
+     */
     public Board clone() {
         return new Board(getGridClone(), lastPlayedX, lastPlayedY);
     }

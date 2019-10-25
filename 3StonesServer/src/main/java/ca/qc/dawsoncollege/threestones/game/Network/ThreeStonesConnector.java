@@ -111,8 +111,4 @@ public class ThreeStonesConnector {
         isClosed = true;
         servSocket.close();
     }
-
-    public boolean isClosed() {
-        return isClosed;
-    }
 }
