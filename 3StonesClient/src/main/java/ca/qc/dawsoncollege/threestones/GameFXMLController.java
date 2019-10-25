@@ -17,6 +17,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+/**
+ * Game FXML controller
+ *
+ * @author Jean Naima
+ */
 public class GameFXMLController {
 
     private final static Logger LOG = LoggerFactory.getLogger(GameFXMLController.class);
