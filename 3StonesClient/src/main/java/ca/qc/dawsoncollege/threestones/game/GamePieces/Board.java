@@ -107,7 +107,6 @@ public class Board implements Cloneable {
         if (colFree(x) || rowFree(y)) {
             return x == this.lastPlayedX || y == this.lastPlayedY;
         }
-
         return true;
     }
 

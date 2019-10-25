@@ -1,14 +1,14 @@
 package ca.qc.dawsoncollege.threestones.game.Player;
 
 import ca.qc.dawsoncollege.threestones.game.GamePieces.Move;
+
 import java.io.IOException;
 
 public abstract class Player {
     protected int numRemainingPieces;
 
     public abstract Move getMove() throws IOException;
-
-
+    
     public int getNumRemainingPieces() {
         return this.numRemainingPieces;
     }

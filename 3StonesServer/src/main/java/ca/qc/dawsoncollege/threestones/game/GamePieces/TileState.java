@@ -2,13 +2,29 @@ package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
 import java.util.Arrays;
 
+/**
+ * How tile enum is used and where
+ *
+ * @author Jean
+ * @author Yasseen
+ */
 public enum TileState {
     EMPTY, BLACK, WHITE;
 
+    /**
+     * Gives the tile states available in the game
+     *
+     * @return available tiles
+     */
     public static TileState[] getPlayablePieces() {
         return new TileState[]{WHITE, BLACK};
     }
 
+    /**
+     * returns tile char by type
+     *
+     * @return string character for tile
+     */
     public String toString() {
         switch (this) {
             case BLACK:
@@ -22,6 +38,11 @@ public enum TileState {
         }
     }
 
+    /**
+     * check if tilestate is playable
+     *
+     * @return
+     */
     public boolean isPlayable() {
         return !Arrays.asList(getPlayablePieces()).contains(this);
     }
