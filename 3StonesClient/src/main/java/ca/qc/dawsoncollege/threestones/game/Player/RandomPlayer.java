@@ -11,7 +11,7 @@ public class RandomPlayer extends Player {
     private final ImmutableBoard board;
 
     public RandomPlayer(TileState state, ImmutableBoard board) {
-        if (!state.isPlayable()) {
+        if (state.isPlayable()) {
             throw new IllegalArgumentException("Invalid tile state");
         }
 
@@ -22,10 +22,10 @@ public class RandomPlayer extends Player {
 
     public Move getMove() {
         Move m;
-        
-        do{
+
+        do {
             m = new Move((int) (Math.random() * 11), (int) (Math.random() * 11), this.tileColor);
-        } while(!this.board.checkIfValidMove(m));
+        } while (this.board.checkIfValidMove(m));
         return m;
     }
 }

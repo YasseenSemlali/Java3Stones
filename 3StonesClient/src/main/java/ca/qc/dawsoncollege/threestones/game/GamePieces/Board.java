@@ -2,25 +2,24 @@ package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
 import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
 
-public class Board implements Cloneable
-{
+public class Board implements Cloneable {
     public static final int HEIGHT = 11;
     public static final int WIDTH = 11;
-
     public static final int NUM_PIECES = 15;
-    public static final int STONES_FOR_POINT = 3;
+
+    private static final int STONES_FOR_POINT = 3;
     private int lastPlayedX = -1;
     private int lastPlayedY = -1;
     private Tile[][] grid;
-    
+
     public Board() {
         this.grid = new Tile[WIDTH][HEIGHT];
         this.populateGrid();
     }
-    
+
     private Board(Tile[][] grid, int lastPlayedX, int lastPlayedY) {
         this.grid = grid;
-        
+
         this.lastPlayedX = lastPlayedX;
         this.lastPlayedY = lastPlayedY;
     }
@@ -102,7 +101,7 @@ public class Board implements Cloneable
 
             // Get diagonal left
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
-                for (int y = Board.STONES_FOR_POINT - 1; y < HEIGHT; y++){
+                for (int y = Board.STONES_FOR_POINT - 1; y < HEIGHT; y++) {
                     if (this.get(x, y).getState() == state &&
                             this.get(x + 1, y - 1).getState() == state &&
                             this.get(x + 2, y - 2).getState() == state) {
@@ -164,22 +163,21 @@ public class Board implements Cloneable
         } else if (player == PacketInfo.PLAYER_TWO) {
             move.setState(TileState.BLACK);
         }
-        System.out.println(move);
         play(move);
     }
 
     private Tile[][] getGridClone() {
         Tile[][] grid = new Tile[WIDTH][HEIGHT];
-        
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[i].length; j++) {
-                 grid[i][j] = this.grid[i][j].clone();
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j] = this.grid[i][j].clone();
             }
         }
-        
+
         return grid;
     }
-    
+
     public Board clone() {
         return new Board(getGridClone(), lastPlayedX, lastPlayedY);
     }

@@ -8,25 +8,4 @@ public abstract class Player {
 
     public abstract Move getMove();
 
-    public int getNumRemainingPieces() {
-        return this.numRemainingPieces;
-    }
-
-    public void setNumRemainingPieces(int pieces) {
-        this.numRemainingPieces = pieces;
-    }
-
-    ;
-
-    public boolean hasRemainingPieces() {
-        return this.numRemainingPieces > 0;
-    }
-
-    public void usePiece() {
-        if (this.numRemainingPieces <= 0) {
-            throw new IllegalStateException("No pieces remaining");
-        }
-        this.numRemainingPieces--;
-    }
-
 }

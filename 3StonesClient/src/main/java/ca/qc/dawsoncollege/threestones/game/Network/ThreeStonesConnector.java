@@ -26,9 +26,9 @@ public class ThreeStonesConnector {
      *
      * @param server takes a string representing the ip address of the server
      * @param port   takes an int that represents the port number
+     * @throws IOException connection errors
      * @author Saad
      * @author Yasseen
-     * @throws IOException
      */
     public ThreeStonesConnector(String server, int port) throws IOException {
         try {
@@ -42,11 +42,11 @@ public class ThreeStonesConnector {
     }
 
     /**
-     * Secondary constructor for this class used in the case of already having socket specifically
+     * Secondary constructor for this class used in the case of already having socket, specifically used in
      * in the Server
      *
+     * @param player1 socket connection
      * @author Saad
-     * @param player1
      */
     public ThreeStonesConnector(Socket player1) {
         this.servSocket = player1;
@@ -61,15 +61,15 @@ public class ThreeStonesConnector {
     /**
      * Method used to send data from one end to the other
      *
-     * @param first   byte that represents the category of the send (Move, Quit, Play, Win, Tie)
-     * @param secound byte that represents the player that is doing the command
-     * @param third   byte that represents the x to place piece or space by default
+     * @param first  byte that represents the category of the send (Move, Quit, Play, Win, Tie)
+     * @param second byte that represents the player that is doing the command
+     * @param third  byte that represents the x to place piece or space by default
      * @param fourth byte that represents the y to place piece or space by default
+     * @throws IOException when data is being sent
      * @author Saad
-     * @throws IOException
      */
-    public void sendData(byte first, byte secound, byte third, byte fourth) throws IOException {
-        byte[] messages = {first, secound, third, fourth};
+    public void sendData(byte first, byte second, byte third, byte fourth) throws IOException {
+        byte[] messages = {first, second, third, fourth};
         out.write(messages);
     }
 
@@ -77,8 +77,8 @@ public class ThreeStonesConnector {
      * Waits to receive data from one end of the connection
      *
      * @return byte[] of the data received
+     * @throws IOException receives data being sent
      * @author Saad
-     * @throws IOException
      */
     public byte[] receiveData() throws IOException {
         byte[] receivedData = new byte[6];
@@ -92,8 +92,8 @@ public class ThreeStonesConnector {
     /**
      * Close the connection
      *
+     * @throws IOException error when closing
      * @author Saad
-     * @throws IOException
      */
     public void closeSocket() throws IOException {
         servSocket.close();
