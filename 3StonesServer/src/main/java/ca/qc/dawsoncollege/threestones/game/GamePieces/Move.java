@@ -32,8 +32,4 @@ public class Move {
         return state;
     }
 
-
-    public void setState(TileState tile) {
-        this.state = tile;
-    }
 }

@@ -1,4 +1,3 @@
-ca/qc/dawsoncollege/threestones/App.class
 ca/qc/dawsoncollege/threestones/game/GamePieces/Score.class
 ca/qc/dawsoncollege/threestones/game/GamePieces/TileState$1.class
 ca/qc/dawsoncollege/threestones/game/Network/PacketInfo.class
@@ -7,11 +6,9 @@ ca/qc/dawsoncollege/threestones/Main.class
 ca/qc/dawsoncollege/threestones/game/Network/ThreeStonesConnector.class
 ca/qc/dawsoncollege/threestones/game/Player/NetworkPlayer.class
 ca/qc/dawsoncollege/threestones/game/GamePieces/Board.class
-ca/qc/dawsoncollege/threestones/game/Player/RandomPlayer.class
 ca/qc/dawsoncollege/threestones/game/GamePieces/Tile.class
 ca/qc/dawsoncollege/threestones/game/Network/GameSession.class
 ca/qc/dawsoncollege/threestones/game/GamePieces/ImmutableBoard.class
-ca/qc/dawsoncollege/threestones/game/GamePieces/Game.class
 ca/qc/dawsoncollege/threestones/game/GamePieces/Move.class
 ca/qc/dawsoncollege/threestones/game/Player/AIPlayer.class
 ca/qc/dawsoncollege/threestones/game/GamePieces/TileState.class

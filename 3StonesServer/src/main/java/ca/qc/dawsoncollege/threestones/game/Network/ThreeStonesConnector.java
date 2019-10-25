@@ -1,11 +1,12 @@
 package ca.qc.dawsoncollege.threestones.game.Network;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class handles all methods relating to sending and receiving from a connection
@@ -19,7 +20,7 @@ public class ThreeStonesConnector {
     private InputStream in;
     private OutputStream out;
     private boolean isClosed;
-    
+
     private byte[] cachedData;
 
     /**
@@ -28,9 +29,9 @@ public class ThreeStonesConnector {
      *
      * @param server takes a string representing the ip address of the server
      * @param port   takes an int that represents the port number
+     * @throws java.io.IOException connection failure
      * @author Saad
      * @author Yasseen
-     * @throws java.io.IOException
      */
     public ThreeStonesConnector(String server, int port) throws IOException {
         try {
@@ -48,8 +49,8 @@ public class ThreeStonesConnector {
      * Secondary constructor for this class used in the case of already having socket specifically
      * in the Server
      *
+     * @param player1 socket connection to player
      * @author Saad
-     * @param player1
      */
     public ThreeStonesConnector(Socket player1) {
         this.servSocket = player1;
@@ -65,41 +66,37 @@ public class ThreeStonesConnector {
     /**
      * Method used to send data from one end to the other
      *
-     * @param first   byte that represents the category of the send (Move, Quit, Play, Win, Tie)
-     * @param secound byte that represents the player that is doing the command
-     * @param third   byte that represents the x to place piece or space by default
+     * @param first  byte that represents the category of the send (Move, Quit, Play, Win, Tie)
+     * @param second byte that represents the player that is doing the command
+     * @param third  byte that represents the x to place piece or space by default
      * @param fourth byte that represents the y to place piece or space by default
+     * @throws java.io.IOException connection error
      * @author Saad
-     * @throws java.io.IOException
      */
-    public void sendData(byte first, byte secound, byte third, byte fourth, byte fifth, byte sixth) throws IOException {
-        byte[] messages = {first, secound, third, fourth, fifth, sixth};
+    public void sendData(byte first, byte second, byte third, byte fourth, byte fifth, byte sixth) throws IOException {
+        byte[] messages = {first, second, third, fourth, fifth, sixth};
         out.write(messages);
     }
 
     /**
      * Waits to receive data from one end of the connection
      *
-     * @return byte[] of the data received
+     * @throws java.io.IOException connection error
      * @author Saad
-     * @throws java.io.IOException
      */
     public void receiveData() throws IOException {
         byte[] receivedData = new byte[4];
         int receivedBytes = 0;
         while (receivedBytes < 4) {
             receivedBytes = in.read(receivedData);
-            if (receivedBytes == -1 ){
+            if (receivedBytes == -1) {
                 this.cachedData = receivedData;
-                //return receivedData;
                 break;
             }
         }
-        
         this.cachedData = receivedData;
-        //return receivedData;
     }
-    
+
     public byte[] getReceivedData() {
         return this.cachedData;
     }
@@ -107,14 +104,15 @@ public class ThreeStonesConnector {
     /**
      * Close the connection
      *
-     * @author Saad
      * @throws java.io.IOException
+     * @author Saad
      */
     public void closeSocket() throws IOException {
         isClosed = true;
         servSocket.close();
     }
-    public boolean isClosed(){
+
+    public boolean isClosed() {
         return isClosed;
     }
 }

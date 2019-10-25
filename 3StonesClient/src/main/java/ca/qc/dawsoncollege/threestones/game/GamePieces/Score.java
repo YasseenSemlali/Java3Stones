@@ -9,10 +9,6 @@ public class Score {
         scoreMap.put(state, points);
     }
 
-    public int getScore(TileState state) {
-        return scoreMap.get(state);
-    }
-
     public String toString() {
         String s = "";
 

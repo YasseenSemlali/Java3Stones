@@ -23,6 +23,6 @@ public enum TileState {
     }
 
     public boolean isPlayable() {
-        return Arrays.stream(getPlayablePieces()).anyMatch(this::equals);
+        return !Arrays.asList(getPlayablePieces()).contains(this);
     }
 }

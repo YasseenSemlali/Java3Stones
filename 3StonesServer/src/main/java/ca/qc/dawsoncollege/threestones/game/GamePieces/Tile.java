@@ -12,9 +12,9 @@ public class Tile implements Cloneable {
     }
 
     public Tile clone() {
-        return new Tile(x,y,state);
+        return new Tile(x, y, state);
     }
-    
+
     public void setTileState(TileState state) {
         this.state = state;
     }
@@ -25,14 +25,6 @@ public class Tile implements Cloneable {
 
     public boolean isEmpty() {
         return this.state == TileState.EMPTY;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public String toString() {

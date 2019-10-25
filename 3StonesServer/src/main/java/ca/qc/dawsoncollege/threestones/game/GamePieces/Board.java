@@ -1,9 +1,6 @@
 package ca.qc.dawsoncollege.threestones.game.GamePieces;
 
-import ca.qc.dawsoncollege.threestones.game.Network.PacketInfo;
-
-public class Board implements Cloneable
-{
+public class Board implements Cloneable {
     public static final int HEIGHT = 11;
     public static final int WIDTH = 11;
 
@@ -12,15 +9,15 @@ public class Board implements Cloneable
     private int lastPlayedX = -1;
     private int lastPlayedY = -1;
     private Tile[][] grid;
-    
+
     public Board() {
         this.grid = new Tile[WIDTH][HEIGHT];
         this.populateGrid();
     }
-    
+
     private Board(Tile[][] grid, int lastPlayedX, int lastPlayedY) {
         this.grid = grid;
-        
+
         this.lastPlayedX = lastPlayedX;
         this.lastPlayedY = lastPlayedY;
     }
@@ -45,7 +42,7 @@ public class Board implements Cloneable
     public void play(Move move) {
         int x = move.getX();
         int y = move.getY();
-        if (!checkIfValidMove(move))
+        if (checkIfValidMove(move))
             throw new IllegalArgumentException("Invalid move");
 
         if (move.getState() == TileState.EMPTY)
@@ -59,7 +56,7 @@ public class Board implements Cloneable
     public boolean checkIfValidMove(Move move) {
         int x = move.getX();
         int y = move.getY();
-        return this.get(x, y).isEmpty() && x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT && this.validateLastPlayed(x, y);
+        return !this.get(x, y).isEmpty() || x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT || !this.validateLastPlayed(x, y);
     }
 
     public Score calculateScore() {
@@ -70,9 +67,9 @@ public class Board implements Cloneable
             // Get horizontal
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = 0; y < HEIGHT; y++) {
-                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
-                            (x+1 == WIDTH/2 && y == HEIGHT/2) ||
-                            (x+2 == WIDTH/2 && y == HEIGHT/2)){
+                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                            (x + 1 == WIDTH / 2 && y == HEIGHT / 2) ||
+                            (x + 2 == WIDTH / 2 && y == HEIGHT / 2)) {
                         continue;
                     }
                     if (this.get(x, y).getState() == state &&
@@ -86,12 +83,12 @@ public class Board implements Cloneable
             // Get vertical
             for (int x = 0; x < WIDTH; x++) {
                 for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
-                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
-                            (x == WIDTH/2 && y+1 == HEIGHT/2) ||
-                            (x == WIDTH/2 && y+2 == HEIGHT/2)){
+                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                            (x == WIDTH / 2 && y + 1 == HEIGHT / 2) ||
+                            (x == WIDTH / 2 && y + 2 == HEIGHT / 2)) {
                         continue;
                     }
-                    
+
                     if (this.get(x, y).getState() == state &&
                             this.get(x, y + 1).getState() == state &&
                             this.get(x, y + 2).getState() == state) {
@@ -103,12 +100,12 @@ public class Board implements Cloneable
             // Get diagonal right
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
-                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
-                            (x+1 == WIDTH/2 && y+1 == HEIGHT/2) ||
-                            (x+2 == WIDTH/2 && y+2 == HEIGHT/2)){
+                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                            (x + 1 == WIDTH / 2 && y + 1 == HEIGHT / 2) ||
+                            (x + 2 == WIDTH / 2 && y + 2 == HEIGHT / 2)) {
                         continue;
                     }
-                    
+
                     if (this.get(x, y).getState() == state &&
                             this.get(x + 1, y + 1).getState() == state &&
                             this.get(x + 2, y + 2).getState() == state) {
@@ -119,13 +116,13 @@ public class Board implements Cloneable
 
             // Get diagonal left
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
-                for (int y = Board.STONES_FOR_POINT - 1; y < HEIGHT; y++){
-                    if((x == WIDTH/2+1 && y == HEIGHT/2) ||
-                            (x+1 == WIDTH/2 && y-1 == HEIGHT/2) ||
-                            (x+2 == WIDTH/2 && y-2 == HEIGHT/2)){
+                for (int y = Board.STONES_FOR_POINT - 1; y < HEIGHT; y++) {
+                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                            (x + 1 == WIDTH / 2 && y - 1 == HEIGHT / 2) ||
+                            (x + 2 == WIDTH / 2 && y - 2 == HEIGHT / 2)) {
                         continue;
                     }
-                    
+
                     if (this.get(x, y).getState() == state &&
                             this.get(x + 1, y - 1).getState() == state &&
                             this.get(x + 2, y - 2).getState() == state) {
@@ -182,31 +179,18 @@ public class Board implements Cloneable
         return sb.toString();
     }
 
-    /*
-    public void addMoveasdf(byte x, byte y, byte player) {
-        Move move = new Move(x, y);
-        if (player == PacketInfo.PLAYER_ONE) {
-            move.setState(TileState.WHITE);
-        } else if (player == PacketInfo.PLAYER_TWO) {
-            move.setState(TileState.BLACK);
-        }
-        System.out.println(move);
-        play(move);
-    }
-*/
-
     private Tile[][] getGridClone() {
         Tile[][] grid = new Tile[WIDTH][HEIGHT];
-        
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[i].length; j++) {
-                 grid[i][j] = this.grid[i][j].clone();
+
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                grid[i][j] = this.grid[i][j].clone();
             }
         }
-        
+
         return grid;
     }
-    
+
     public Board clone() {
         return new Board(getGridClone(), lastPlayedX, lastPlayedY);
     }
