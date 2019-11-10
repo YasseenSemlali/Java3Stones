@@ -80,15 +80,19 @@ public class Controller {
     @FXML
     private void onConnect() {
         connectBut.setDisable(true);
+        LOG.info("Looking for players!");
         try {
-            LOG.info("Looking for players!");
             ServerSocket servSock = new ServerSocket(50000);
             while (true) {
-                try (Socket player1 = servSock.accept()) {
+                try {
+                    Socket player1 = servSock.accept();
                     LOG.info("Player found");
                     GameSession gs = new GameSession(player1);
-                    gs.run();
+                    Thread gameThread = new Thread(gs);
+                    gameThread.start();
                     LOG.info("Game ended, searching for new player");
+                } catch (Exception e) {
+                    LOG.info(e.getMessage());
                 }
             }
         } catch (IOException e) {
