@@ -88,7 +88,6 @@ public class ThreeStonesConnector {
         byte[] receivedData = new byte[4];
         int receivedBytes = 0;
         while (receivedBytes < 4) {
-            LOG.error(String.valueOf(receivedBytes));
             receivedBytes = in.read(receivedData);
             if (receivedBytes == -1) {
                 this.cachedData = receivedData;
