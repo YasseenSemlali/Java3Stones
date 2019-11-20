@@ -58,7 +58,9 @@ public class GameFXMLController {
     }
 
     /***
-     * Method that add events to all cells withing grid
+     * This method adds the click events to the circle in the grid.
+     * When a cell is clicked, checks if the move is valid and plays it 
+     * if it is.
      * @author Jean Naima
      */
     private void addEventGrid() {
@@ -134,7 +136,7 @@ public class GameFXMLController {
     }
 
     /**
-     * gets move made by server
+     * gets move made by server by analyzing the socket information
      *
      * @throws IOException if the receiving data has an exception
      * @author Saad
@@ -169,8 +171,9 @@ public class GameFXMLController {
     }
 
     /**
-     * Handles the GUI part of the move made by the client
-     *
+     * Handles the GUI part of the move made by the client.
+     * Changes the color of the circle and applies a red border
+     * to demonstrate that it was the last move played
      * @param x x position of the move
      * @param y y position of the move
      * @author Jean Naima
@@ -194,7 +197,8 @@ public class GameFXMLController {
 
     /**
      * Handles the GUI part of the move made by the server
-     *
+     * Changes the color of the circle and applies a red border
+     * to demonstrate that it was the last move played
      * @param x x position of the move
      * @param y y position of the move
      * @author Jean Naima
@@ -217,7 +221,7 @@ public class GameFXMLController {
     }
 
     /**
-     * Removes Events
+     * Removes all the click events from the circles in the grid.
      *
      * @author Jean
      */
@@ -232,7 +236,9 @@ public class GameFXMLController {
 
     /**
      * OnClick event handler of grid
-     * handles Move made by client, makes sure it is valid
+     * handles Move made by client, makes sure it is valid.
+     * When the move is played, it will send data to the server client
+     * letting it know the move played and if the game is over or not.
      *
      * @param e mouseClick event
      * @throws IOException if the processing of packets fails

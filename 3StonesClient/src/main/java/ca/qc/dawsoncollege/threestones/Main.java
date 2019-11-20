@@ -23,7 +23,7 @@ public class Main extends Application {
     }
 
     /**
-     * Loaded the FXML file and launches the main app for the Game
+     * Loads the FXML file and launches the main app for the Game
      *
      * @param primaryStage main stage
      * @throws Exception throws exception if cannot load stage

@@ -35,6 +35,11 @@ public class GameSession {
         this.connection = new ThreeStonesConnector(player1);
     }
 
+    /**
+     * Runs the game sessions. Handles all the game logic and data recieved
+     * by the client.
+     * @throws IOException 
+     */
     public void run() throws IOException {
         boolean notClosed = true;
         LOG.info("Game session created");

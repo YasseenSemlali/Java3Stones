@@ -45,8 +45,8 @@ public class MainFXMLController {
     }
 
     /**
-     * Makes sure the provided ip and port match the pattern
-     * starts game if the connection is established
+     * Makes sure the provided ip and port match the pattern.
+     * Will start a game if the connection is established
      *
      * @author Jean
      */
