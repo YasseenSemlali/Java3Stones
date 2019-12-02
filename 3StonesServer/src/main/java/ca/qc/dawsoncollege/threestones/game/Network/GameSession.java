@@ -16,7 +16,7 @@ import java.net.Socket;
  * @author Saad
  * @author Yasseen
  */
-public class GameSession {
+public class GameSession implements Runnable {
 
     private final static Logger LOG = LoggerFactory.getLogger(GameSession.class);
     private ThreeStonesConnector connection;
@@ -33,52 +33,57 @@ public class GameSession {
      */
     public GameSession(Socket player1) {
         this.connection = new ThreeStonesConnector(player1);
+        LOG.info("Connected with user from : " + player1.getInetAddress().toString());
     }
 
-    public void run() throws IOException {
+    @Override
+    public void run() {
         boolean notClosed = true;
         LOG.info("Game session created");
         board = new Board();
 
         p1 = new NetworkPlayer(TileState.WHITE, connection);
         p2 = new AIPlayer(TileState.BLACK, new ImmutableBoard(board));
+        try {
+            do {
+                connection.receiveData();
+                byte[] data = connection.getReceivedData();
 
-        do {
-            connection.receiveData();
-            byte[] data = connection.getReceivedData();
+                if (data[0] == PacketInfo.QUIT) {
+                    LOG.info("Quitting game...");
 
-            if (data[0] == PacketInfo.QUIT) {
-                LOG.info("Quitting game...");
+                    this.playTurn(data);
 
-                this.playTurn(data);
+                    p2.setNumRemainingPieces(0);
+                } else if (data[0] == 0) {
+                    LOG.info("closeSocket");
+                    connection.closeSocket();
+                    notClosed = false;
+                    break;
+                } else if (data[0] == PacketInfo.NEW_GAME) {
+                    run();
+                } else {
+                    this.playTurn(data);
 
-                p2.setNumRemainingPieces(0);
-            } else if (data[0] == 0) {
-                LOG.info("closeSocket");
-                connection.closeSocket();
-                notClosed = false;
-                break;
-            } else if (data[0] == PacketInfo.NEW_GAME) {
-                run();
-            } else {
-                this.playTurn(data);
+                }
+            } while (p2.hasRemainingPieces());
 
+            Score current = board.calculateScore();
+            checkWinner(current);
+
+            while (notClosed) {
+                connection.receiveData();
+                byte[] data = connection.getReceivedData();
+                if (data[0] == PacketInfo.NEW_GAME) {
+                    run();
+                } else if (data[0] == 0) {
+                    notClosed = false;
+                    LOG.info("Socket Closed");
+                    connection.closeSocket();
+                }
             }
-        } while (p2.hasRemainingPieces());
-
-        Score current = board.calculateScore();
-        checkWinner(current);
-
-        while (notClosed) {
-            connection.receiveData();
-            byte[] data = connection.getReceivedData();
-            if (data[0] == PacketInfo.NEW_GAME) {
-                run();
-            } else if (data[0] == 0) {
-                notClosed = false;
-                LOG.info("Socket Closed");
-                connection.closeSocket();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
