@@ -105,7 +105,8 @@ public class Board implements Cloneable {
             // Get horizontal
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = 0; y < HEIGHT; y++) {
-                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                    if ((x == WIDTH / 2
+                            && y == HEIGHT / 2) ||
                             (x + 1 == WIDTH / 2 && y == HEIGHT / 2) ||
                             (x + 2 == WIDTH / 2 && y == HEIGHT / 2)) {
                         continue;
@@ -121,7 +122,8 @@ public class Board implements Cloneable {
             // Get vertical
             for (int x = 0; x < WIDTH; x++) {
                 for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
-                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                    if ((x == WIDTH / 2
+                            && y == HEIGHT / 2) ||
                             (x == WIDTH / 2 && y + 1 == HEIGHT / 2) ||
                             (x == WIDTH / 2 && y + 2 == HEIGHT / 2)) {
                         continue;
@@ -138,7 +140,8 @@ public class Board implements Cloneable {
             // Get diagonal right
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = 0; y < HEIGHT - Board.STONES_FOR_POINT + 1; y++) {
-                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                    if ((x == WIDTH / 2
+                            && y == HEIGHT / 2) ||
                             (x + 1 == WIDTH / 2 && y + 1 == HEIGHT / 2) ||
                             (x + 2 == WIDTH / 2 && y + 2 == HEIGHT / 2)) {
                         continue;
@@ -155,7 +158,8 @@ public class Board implements Cloneable {
             // Get diagonal left
             for (int x = 0; x < WIDTH - Board.STONES_FOR_POINT + 1; x++) {
                 for (int y = Board.STONES_FOR_POINT - 1; y < HEIGHT; y++) {
-                    if ((x == WIDTH / 2 + 1 && y == HEIGHT / 2) ||
+                    if ((x == WIDTH / 2
+                            && y == HEIGHT / 2) ||
                             (x + 1 == WIDTH / 2 && y - 1 == HEIGHT / 2) ||
                             (x + 2 == WIDTH / 2 && y - 2 == HEIGHT / 2)) {
                         continue;
