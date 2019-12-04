@@ -97,6 +97,10 @@ public class ThreeStonesConnector {
         this.cachedData = receivedData;
     }
 
+    /**
+     * get array of bytes representing data from client
+     * @return data from server
+     */
     public byte[] getReceivedData() {
         return this.cachedData;
     }

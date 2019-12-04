@@ -36,6 +36,11 @@ public class GameSession implements Runnable {
         LOG.info("Connected with user from : " + player1.getInetAddress().toString());
     }
 
+    /**
+     * Creates an instance of a game which can be used by multiple clients
+     * 
+     * @author Saad
+     */
     @Override
     public void run() {
         boolean notClosed = true;
